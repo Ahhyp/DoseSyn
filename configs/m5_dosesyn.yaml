@@ -1,0 +1,137 @@
+# DoseSyn M5 — full model development config (frozen M0–M3, M4 untouched)
+version: m5-v1
+paths:
+  logs_dir: outputs/logs
+inputs:
+  dataset_config: configs/dataset_primary_v1.yaml
+  m5_config: configs/m5_dosesyn.yaml
+  m3_manifest: outputs/audit/m3_manifest.json
+  m4_config: configs/m4_training.yaml
+  drug_graphs: data/processed/drug_graph_features.pt
+  drug_mapping: data/processed/drug_mapping.csv
+  mono_points: data/processed/oneil_monotherapy.parquet
+  m4_report: m4_report.md
+
+outputs:
+  runs_dir: outputs/runs/m5
+  metrics_dir: outputs/metrics/m5
+  figures_dir: outputs/figures/m5
+  tables_dir: outputs/tables/m5
+  audit_dir: outputs/audit
+  report: m5_report.md
+
+training:
+  batch_size: 64
+  eval_batch_size: 128
+  num_workers: 0
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  grad_clip: 5.0
+  epochs: 60
+  patience: 12
+  min_epochs: 5
+  amp: false
+  huber_delta: 1.0
+  num_threads: 4
+
+loss:
+  combo_weight: 1.0
+  combo_reduction: matrix_mean
+  mono_weight: 0.0
+  boundary_weight: 0.0
+  smooth_weight: 0.0
+  mono_reduction: curve_mean
+
+model:
+  hidden_dim: 128
+  cell_hidden: 128
+  dose_hidden: 64
+  decoder_hidden: 256
+  dropout: 0.1
+  gine_layers: 3
+  fourier_bands: 4
+  smooth_eps: 1e-8
+
+variants:
+  c0_control:
+    description: "M5-compatible control: ordered pair head, scalar dose, no FiLM, no auxiliary losses."
+    symmetric_pair: false
+    dose_encoding: scalar
+    film: false
+    mono_weight: 0.0
+    boundary_weight: 0.0
+    smooth_weight: 0.0
+  c1_symmetric:
+    description: "Strictly symmetric pair fusion with scalar dose, no FiLM."
+    symmetric_pair: true
+    dose_encoding: scalar
+    film: false
+    mono_weight: 0.0
+    boundary_weight: 0.0
+    smooth_weight: 0.0
+  c2_fourier:
+    description: "C1 + Fourier continuous dose encoding."
+    symmetric_pair: true
+    dose_encoding: fourier
+    film: false
+    mono_weight: 0.0
+    boundary_weight: 0.0
+    smooth_weight: 0.0
+  c3_film:
+    description: "C2 + FiLM dose-conditioned drug-cell interaction."
+    symmetric_pair: true
+    dose_encoding: fourier
+    film: true
+    mono_weight: 0.0
+    boundary_weight: 0.0
+    smooth_weight: 0.0
+  c4_mono:
+    description: "C3 + shared monotherapy head with protocol-controlled labels."
+    symmetric_pair: true
+    dose_encoding: fourier
+    film: true
+    mono_weight: 0.1
+    boundary_weight: 0.0
+    smooth_weight: 0.0
+  c5_boundary:
+    description: "C4 + virtual zero-dose boundary consistency."
+    symmetric_pair: true
+    dose_encoding: fourier
+    film: true
+    mono_weight: 0.1
+    boundary_weight: 0.02
+    smooth_weight: 0.0
+  c6_full:
+    description: "C5 + non-uniform local surface smoothness."
+    symmetric_pair: true
+    dose_encoding: fourier
+    film: true
+    mono_weight: 0.1
+    boundary_weight: 0.02
+    smooth_weight: 0.01
+
+runs:
+  m5a_s1_seed42:
+    scenario: s1_random_condition
+    kind: seed
+    value: 42
+    split: val
+    variants: [c0_control, c1_symmetric, c2_fourier, c3_film, c4_mono, c5_boundary, c6_full]
+  m5b_s3_fold0:
+    scenario: s3_unseen_cell
+    kind: fold
+    value: 0
+    split: val
+    variants: [c0_control, c1_symmetric, c2_fourier, c3_film, c6_full]
+
+report:
+  open_issues:
+    - "M5 只在 S1 seed42 与 S3 fold0 的验证集上做模块验证；没有测试集调参，也没有跑 M6 的 11-split 全量实验。"
+    - "单药监督依赖 M3 冻结的 mono_assignments；S1/S2 的 known_monotherapy 是已知先验，不能当作独立单药测试。"
+    - "零剂量边界使用虚拟查询，不是实测 vehicle；它对真实基线漂移的鲁棒性未知。"
+    - "平滑损失只使用矩阵内部相邻剂量点，不跨矩阵，也不假设单调性。"
+    - "X/X0→effect 的协同指标语义尚未验证，报告不使用 Bliss/HSA/Loewe/ZIP 作为标准协同分数。"
+    - "未做完整超参搜索；M5 目标是接口/协议/数值正确性，不保证优于 M4 B3。"
+    - "S1 的最佳 epoch 多在 57–60，验证损失仍在下降，60 epoch 预算下模型欠训练；M6 应延长训练并做 LR/早停消融。"
+    - "M5 只有单种子/单折结果，没有置信区间或显著性检验；不能据此判断组件真实增益。"
+    - "M5 的验证 macro RMSE 与 M4 的测试 macro RMSE 集合角色不同，不可直接比较优劣。"

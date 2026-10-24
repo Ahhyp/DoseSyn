@@ -310,8 +310,8 @@ drug_b_id/row_idx/col_idx/dose_a_um/dose_b_um/y_true/y_pred/residual`；测试�
 数值为 `matrix_macro_RMSE`（先逐 4×4 矩阵算 RMSE，再对矩阵取宏平均，越低越好）。
 S1 跨 3 个种子，S2 跨 3 个种子，S3 跨 5 折。
 
-- **S1/S2**：B2 略优于 B3，二者都远优于 B1/B0。
-- **S3**：B3 略优于 B2，但两者相对 B0/B1 的优势明显缩小——未见细胞系是主要难点。
+- **S1**：B2 略优于 B3；**S2/S3**：B3 略优于 B2。两者都远优于 B1/B0。
+- **S3**：相对 B0/B1 的优势明显缩小——未见细胞系是主要难点。
 - B0 的 R² 约为 0，说明简单均值基线没有解释力；B1 的 R² 在 S1/S2 约 0.28–0.32，
   S3 降到约 0.13。
 
@@ -329,9 +329,71 @@ S1 跨 3 个种子，S2 跨 3 个种子，S3 跨 5 折。
 
 ### 12.5 已知问题
 
-- 本阶段未做超参搜索；统一配置下 B2 在 S1/S2 略胜 B3，不能据此断言图结构无用。
+- 本阶段未做超参搜索；S1 下 B2 略胜 B3，S2/S3 下 B3 略胜 B2，不能据此断言图结构无用。
 - S3 各折癌症类型不均衡（如 fold0 test 无前列腺细胞），指标方差较大。
 - 预测未做 `[0, 2.5]` 物理裁剪；如需约束应在模型侧实现，不能改测试标签。
 - B3 仅用均值池化 + 拼接，未使用 FiLM、单药边界、平滑正则或协同重建。
 - 正式训练前 2 个作业因安装 matplotlib 时损坏 numpy 失败，修复后重跑；
   最终 44 个结果均来自成功作业。
+
+---
+
+## 13. M5：完整 DoseSyn 网络（验证集开发）
+
+### 13.1 模型组件
+
+- **药物编码**：共享 GINE（9 类原子特征 + 4 类键特征），两种药物同一编码器。
+- **细胞编码**：50 维 Hallmark ssGSEA → MLP。
+- **连续剂量编码**：`scalar` / `mlp` / `fourier` 三种可选，零剂量用显式 flag，不取 `log10(0)`。
+- **剂量条件交互**：每个药物独立的 drug-cell 交互 MLP + FiLM `(γ,β)=MLP(dose)`，
+  `t=(1+γ)·u+β`，FiLM 末层零初始化。
+- **严格交换对称融合**：`[t1+t2, t1⊙t2, |t1−t2|, h_cell]`，不含任何有序项；
+  C0 保留有序对照用于验证“对称不是表面改名”。
+- **共享 Monotherapy Head**：`M(d,x,c)=MonoHead(GINE(d), CellEncoder(c), DoseEncoder(x))`。
+- **零剂量边界**：虚拟查询 `F(d1,x1,d2,0)≈M(d1,x1)`、`F(d1,0,d2,x2)≈M(d2,x2)`。
+- **局部曲面平滑**：在矩阵自身对数剂量网格上做非均匀二阶差分，不跨矩阵、不假设单调性。
+
+### 13.2 消融开关
+
+`DoseSynCore` 与配置支持：`symmetric_pair`、`dose_encoding`、`film`、
+`mono_weight`、`boundary_weight`、`smooth_weight`。C0–C6 依次打开，
+为 M6 的正式消融准备入口。
+
+### 13.3 单药标签协议
+
+- S1/S2 使用 `known_monotherapy`：1,782 条曲线全部可训练，仅作为已知先验披露，
+  不能当作独立测试证据。
+- S3 使用 `strict_cell_isolation`：fold0 仅 990 条训练细胞曲线可训练，
+  792 条验证/测试细胞曲线封存；读取封存标签会抛 `MonoAccessError`。
+- 单药损失与 combo 损失联合优化，系数显式写入配置与 run 元数据。
+
+### 13.4 协同语义
+
+`X/X0` 到 Bliss/HSA/Loewe/ZIP 的转换需要零剂量锚点与可逆单药效应，
+本数据不满足，全部标记 `NOT_VALIDATED`。M5 **不输出任何“标准协同分数”**，
+只报告 `E_swap`、`E_boundary`、`R_smooth` 等自洽性诊断。
+详见 `docs/decisions/m5_synergy_reconstruction_semantics.md`。
+
+### 13.5 命令
+
+```bash
+# 单元测试（151 项）
+.venv/bin/python -m pytest -q tests
+
+# S1 seed42 验证集：C0–C6
+.venv/bin/python scripts/06_run_dosesyn.py --scenario s1_random_condition --seed 42 \
+  --variants c0_control c1_symmetric c2_fourier c3_film c4_mono c5_boundary c6_full --device cuda --force
+
+# S3 fold0 验证集：C0/C1/C2/C3/C6
+.venv/bin/python scripts/06_run_dosesyn.py --scenario s3_unseen_cell --fold 0 \
+  --variants c0_control c1_symmetric c2_fourier c3_film c6_full --device cuda --force
+
+# 报告与验收
+.venv/bin/python scripts/06_validate_m5.py --pytest-log outputs/audit/pytest_m5.log
+```
+
+### 13.6 结果
+
+真实验证指标、收敛曲线、参数量、失败实验与逐 run 产物见
+[`m5_report.md`](m5_report.md)。M5 只使用验证集，未读取测试集；
+技术验收标准是组件/协议/数值正确，而不是必须超过 M4 B3。

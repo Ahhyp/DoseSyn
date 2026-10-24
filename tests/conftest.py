@@ -134,3 +134,75 @@ def m3_split_dirs(m3_cfg):
         pytest.fail("no M3 splits found (run scripts/03_generate_splits.py)")
     return dirs
 
+"""Shared M5 fixtures: real frozen split tensors, graphs and small models."""
+
+import sys
+from pathlib import Path
+
+import pytest
+import torch
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "src"))
+
+from dosesyn.models.dosesyn import DoseSynCore  # noqa: E402
+from dosesyn.training.m4_data import (  # noqa: E402
+    graph_batch,
+    load_graphs,
+    load_matrix_table,
+    table_batch,
+)
+from dosesyn.utils.config import load_config  # noqa: E402
+
+M5_CONFIG = ROOT / "configs/m5_dosesyn.yaml"
+
+
+@pytest.fixture(scope="session")
+def m5_cfg():
+    return load_config(M5_CONFIG)
+
+
+@pytest.fixture(scope="session")
+def m5_graphs(m5_cfg):
+    graphs, meta = load_graphs(m5_cfg["inputs"]["m4_config"])
+    return graphs, meta
+
+
+@pytest.fixture(scope="session")
+def s1_val(m5_cfg):
+    return load_matrix_table(
+        "s1_random_condition", "val", seed=42, config_path=m5_cfg["inputs"]["dataset_config"]
+    )
+
+
+@pytest.fixture(scope="session")
+def s3_val(m5_cfg):
+    return load_matrix_table(
+        "s3_unseen_cell", "val", fold=0, config_path=m5_cfg["inputs"]["dataset_config"]
+    )
+
+
+@pytest.fixture
+def small_model():
+    torch.manual_seed(0)
+    return DoseSynCore(
+        cell_dim=50,
+        hidden_dim=32,
+        cell_hidden=32,
+        dose_hidden=16,
+        decoder_hidden=64,
+        gine_layers=1,
+        dropout=0.0,
+        dose_encoding="fourier",
+        symmetric_pair=True,
+        film=True,
+    )
+
+
+@pytest.fixture
+def batch_pair(s1_val, m5_graphs):
+    graphs, _ = m5_graphs
+    idx = torch.arange(8).numpy()
+    batch = table_batch(s1_val, idx, device=torch.device("cpu"))
+    g = graph_batch(s1_val, idx, graphs, device=torch.device("cpu"))
+    return batch, g
