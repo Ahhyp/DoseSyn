@@ -1,0 +1,851 @@
+{
+  "stage": "M6-0",
+  "generated_at": "2026-10-24T11:56:52+00:00",
+  "git_commit": "820dfcb4fb4dd6ca4baaf212f9f16f2ed64fa662",
+  "frozen_primary": "/home/kouzheng_2/AH_YeP/DoseSyn/data/processed/oneil_primary_v1_matrix_index.parquet",
+  "splits": {
+    "seed42": {
+      "path": "/home/kouzheng_2/AH_YeP/DoseSyn/data/splits/s1_random_condition/seed_42",
+      "seed": 42,
+      "fold": null,
+      "metadata_counts": {
+        "train": 13022,
+        "val": 2791,
+        "test": 2786
+      },
+      "assignment_sha256": "b2219079dad06796d9607a42678130d77eb7dd8afc8453adf1c16ffb2437423c",
+      "content_sha256": "29438e0547f34d87ab2889f556485adbff4762db7dd9e953b5826a34412486e4",
+      "files": {
+        "train": {
+          "path": "/home/kouzheng_2/AH_YeP/DoseSyn/data/splits/s1_random_condition/seed_42/train_conditions.parquet",
+          "sha256": "08906dfa54c1e1711b543a5481dd17d3af944468861c6bfc7251c3c7d3e573dd",
+          "n_rows": 12828,
+          "n_conditions": 12828
+        },
+        "val": {
+          "path": "/home/kouzheng_2/AH_YeP/DoseSyn/data/splits/s1_random_condition/seed_42/val_conditions.parquet",
+          "sha256": "a1a3aaa6403a431d04462d715845c0a6a0259d0f1f1961f9fd172eaa68c8cb76",
+          "n_rows": 2748,
+          "n_conditions": 2748
+        },
+        "test": {
+          "path": "/home/kouzheng_2/AH_YeP/DoseSyn/data/splits/s1_random_condition/seed_42/test_conditions.parquet",
+          "sha256": "23f7fb9dfb7a984c977b07fc287b0576230536a970fc57a5cdd56c9d9b2353e2",
+          "n_rows": 2750,
+          "n_conditions": 2750
+        }
+      },
+      "splits": {
+        "train": {
+          "n_conditions": 12828,
+          "n_matrices_from_primary": 13022,
+          "condition_set_sha256": "f26d2e1279502ce1535506432489c24715768d88545b09e637cea23592bf655f",
+          "matrix_set_sha256": "b69516a984caf52128bd009e8f181e2e06be80d9a58636aea54e1c8e6f2bbd22"
+        },
+        "val": {
+          "n_conditions": 2748,
+          "n_matrices_from_primary": 2791,
+          "condition_set_sha256": "6a351c91895c4ae843ab6cfbe593c44eae5abae302373d409ae10fd4d62e5163",
+          "matrix_set_sha256": "6edddab9d682e6d7bc9b43bd0279e86587b1f42f3baee07d66932a40101f77e6"
+        },
+        "test": {
+          "n_conditions": 2750,
+          "n_matrices_from_primary": 2786,
+          "condition_set_sha256": "635c137deb61b75e127070669a4811bfd69eb1a22400c5a39093a6ef53d0fa7d",
+          "matrix_set_sha256": "f1404a865a47319bf118835319b3a18fc0ab2293b0d5a524170bbdce4718ea72"
+        }
+      }
+    },
+    "seed13": {
+      "path": "/home/kouzheng_2/AH_YeP/DoseSyn/data/splits/s1_random_condition/seed_13",
+      "seed": 13,
+      "fold": null,
+      "metadata_counts": {
+        "train": 13026,
+        "val": 2788,
+        "test": 2785
+      },
+      "assignment_sha256": "e54c56f0999d348a1a130f8b299152883a6fb9575b636d7cd0e9ea51a69dc7d9",
+      "content_sha256": "1d3c98e92d417b6d94c9e878fd86234acd14cb4463d7e3567ca0f07bf66d45a0",
+      "files": {
+        "train": {
+          "path": "/home/kouzheng_2/AH_YeP/DoseSyn/data/splits/s1_random_condition/seed_13/train_conditions.parquet",
+          "sha256": "0e1ba8edd332bc4d1d8a985fab52e3295bec4b367eda09f1a66b64a30cc2049c",
+          "n_rows": 12828,
+          "n_conditions": 12828
+        },
+        "val": {
+          "path": "/home/kouzheng_2/AH_YeP/DoseSyn/data/splits/s1_random_condition/seed_13/val_conditions.parquet",
+          "sha256": "d9dd086cec552b68f07be711532de56c92590d6ccf4a490204beca28b00ec929",
+          "n_rows": 2748,
+          "n_conditions": 2748
+        },
+        "test": {
+          "path": "/home/kouzheng_2/AH_YeP/DoseSyn/data/splits/s1_random_condition/seed_13/test_conditions.parquet",
+          "sha256": "316868fac09890ab4e3c506d01799a2c865fe785f38d8be5580ea065a3f6f50d",
+          "n_rows": 2750,
+          "n_conditions": 2750
+        }
+      },
+      "splits": {
+        "train": {
+          "n_conditions": 12828,
+          "n_matrices_from_primary": 13026,
+          "condition_set_sha256": "23b6121c7128f1f50a823df200959ac7ddcf9a1ce8a847d6193e69650d8cc861",
+          "matrix_set_sha256": "4c1fbe3e274c34cd0cf9e40ed993130612a09e385ec226f22c749292d611b7dd"
+        },
+        "val": {
+          "n_conditions": 2748,
+          "n_matrices_from_primary": 2788,
+          "condition_set_sha256": "ad81b83be5c3e2a9271d5b46d177ebe79074d7cf92487cf5fb4672e8483f88bf",
+          "matrix_set_sha256": "0a5df8002b1cff05b3224375d45dd2255f14c042e03420225bc1a7cc61c16180"
+        },
+        "test": {
+          "n_conditions": 2750,
+          "n_matrices_from_primary": 2785,
+          "condition_set_sha256": "9ff1cdc8c021ee7d5e380dd9fb66c1bad3699b463b59b724058b1e7eb8504b9d",
+          "matrix_set_sha256": "ca5dbc091f9df5e4df48b13f0ef925a3a70533ddee05ec4d608afe898bbb1882"
+        }
+      }
+    },
+    "s3_fold0": {
+      "path": "/home/kouzheng_2/AH_YeP/DoseSyn/data/splits/s3_unseen_cell/fold_0",
+      "seed": null,
+      "fold": 0,
+      "metadata_counts": {
+        "train": 10927,
+        "val": 3836,
+        "test": 3836
+      },
+      "assignment_sha256": "e83dc95b1c40db9f69cd28027699837fb771dcf3e815145c249a6ac886d54119",
+      "content_sha256": "a285e470e0d103778eed0ff205e209a3e650f4e32e29f2330241264ef15c2863",
+      "files": {
+        "train": {
+          "path": "/home/kouzheng_2/AH_YeP/DoseSyn/data/splits/s3_unseen_cell/fold_0/train_conditions.parquet",
+          "sha256": "36054307c3a548a4fc60a4f8918451749af7990293a4d6650259602c98d6f2e3",
+          "n_rows": 10780,
+          "n_conditions": 10780
+        },
+        "val": {
+          "path": "/home/kouzheng_2/AH_YeP/DoseSyn/data/splits/s3_unseen_cell/fold_0/val_conditions.parquet",
+          "sha256": "35052b10d4e672754926a5d66fd82a0ee27af17f32a51db63f929fb4cb2e25dc",
+          "n_rows": 3773,
+          "n_conditions": 3773
+        },
+        "test": {
+          "path": "/home/kouzheng_2/AH_YeP/DoseSyn/data/splits/s3_unseen_cell/fold_0/test_conditions.parquet",
+          "sha256": "eb7bde244b515e43aadb097ef09e3249cc6ce63676a8b146d5093e2e8092c8dc",
+          "n_rows": 3773,
+          "n_conditions": 3773
+        }
+      },
+      "splits": {
+        "train": {
+          "n_conditions": 10780,
+          "n_matrices_from_primary": 10927,
+          "condition_set_sha256": "b863b8203b8faea1a3078b1e7d2018890a148a97da2d16f14e12c4d0600b601b",
+          "matrix_set_sha256": "2fc673b833d1ed2fd8eab0c638ea9abca23c959d8f9e2d83e6ad5d055ede16d7"
+        },
+        "val": {
+          "n_conditions": 3773,
+          "n_matrices_from_primary": 3836,
+          "condition_set_sha256": "8907fdf96f9a1c154610cbdbb3cb7d8c155fc5e8c45798abaae0affbcac66943",
+          "matrix_set_sha256": "495175bcd24d6b605a5e1e1800cc4394bc770c111d5ca33a75f7ceaff5794b71"
+        },
+        "test": {
+          "n_conditions": 3773,
+          "n_matrices_from_primary": 3836,
+          "condition_set_sha256": "c546499c5b35d90cf4c825592a19b5a30f1fa8f1fd64f2a74aff1a586b1a2dca",
+          "matrix_set_sha256": "f607416f7c7168a969018f56dc9f906c0acc2e3122161c017718f33c1de88da4"
+        }
+      }
+    }
+  },
+  "comparison": {
+    "seed42_val_vs_seed13_val": {
+      "n_seed42": 2791,
+      "n_seed13": 2788,
+      "intersection": 423,
+      "identical": false
+    }
+  },
+  "m5_s1_seed42": {
+    "target_split": "/home/kouzheng_2/AH_YeP/DoseSyn/data/splits/s1_random_condition/seed_42",
+    "n_target_val_matrices": 2791,
+    "runs": [
+      {
+        "run_id": "m5__s1_random_condition__seed_42__c0_control",
+        "split_id": "seed_42",
+        "seed": 42,
+        "fold": null,
+        "n_matrices": 2791,
+        "n_rows": 44656,
+        "matrix_set_equals_target": true,
+        "matrix_set_equals_other_seed": false,
+        "missing_vs_target": 0,
+        "extra_vs_target": 0,
+        "intersection_vs_target": 2791,
+        "intersection_vs_other_seed": 423,
+        "val_metrics_n_matrices": 2791,
+        "val_metrics_matrix_macro_rmse": 0.18198520518215866,
+        "val_metrics_point_rmse": 0.2066663302721149,
+        "model_name": "m5_c0_control",
+        "variant": {
+          "name": "c0_control",
+          "description": "M5-compatible control: ordered pair head, scalar dose, no FiLM, no auxiliary losses.",
+          "symmetric_pair": false,
+          "dose_encoding": "scalar",
+          "film": false,
+          "mono_weight": 0.0,
+          "boundary_weight": 0.0,
+          "smooth_weight": 0.0
+        },
+        "epochs_config": 60,
+        "early_stop_metric_note": "M5 early stopping uses val matrix_macro_RMSE"
+      },
+      {
+        "run_id": "m5__s1_random_condition__seed_42__c1_symmetric",
+        "split_id": "seed_42",
+        "seed": 42,
+        "fold": null,
+        "n_matrices": 2791,
+        "n_rows": 44656,
+        "matrix_set_equals_target": true,
+        "matrix_set_equals_other_seed": false,
+        "missing_vs_target": 0,
+        "extra_vs_target": 0,
+        "intersection_vs_target": 2791,
+        "intersection_vs_other_seed": 423,
+        "val_metrics_n_matrices": 2791,
+        "val_metrics_matrix_macro_rmse": 0.18091452020658477,
+        "val_metrics_point_rmse": 0.20543495150452845,
+        "model_name": "m5_c1_symmetric",
+        "variant": {
+          "name": "c1_symmetric",
+          "description": "Strictly symmetric pair fusion with scalar dose, no FiLM.",
+          "symmetric_pair": true,
+          "dose_encoding": "scalar",
+          "film": false,
+          "mono_weight": 0.0,
+          "boundary_weight": 0.0,
+          "smooth_weight": 0.0
+        },
+        "epochs_config": 60,
+        "early_stop_metric_note": "M5 early stopping uses val matrix_macro_RMSE"
+      },
+      {
+        "run_id": "m5__s1_random_condition__seed_42__c2_fourier",
+        "split_id": "seed_42",
+        "seed": 42,
+        "fold": null,
+        "n_matrices": 2791,
+        "n_rows": 44656,
+        "matrix_set_equals_target": true,
+        "matrix_set_equals_other_seed": false,
+        "missing_vs_target": 0,
+        "extra_vs_target": 0,
+        "intersection_vs_target": 2791,
+        "intersection_vs_other_seed": 423,
+        "val_metrics_n_matrices": 2791,
+        "val_metrics_matrix_macro_rmse": 0.18051368540134666,
+        "val_metrics_point_rmse": 0.2051832841793579,
+        "model_name": "m5_c2_fourier",
+        "variant": {
+          "name": "c2_fourier",
+          "description": "C1 + Fourier continuous dose encoding.",
+          "symmetric_pair": true,
+          "dose_encoding": "fourier",
+          "film": false,
+          "mono_weight": 0.0,
+          "boundary_weight": 0.0,
+          "smooth_weight": 0.0
+        },
+        "epochs_config": 60,
+        "early_stop_metric_note": "M5 early stopping uses val matrix_macro_RMSE"
+      },
+      {
+        "run_id": "m5__s1_random_condition__seed_42__c3_film",
+        "split_id": "seed_42",
+        "seed": 42,
+        "fold": null,
+        "n_matrices": 2791,
+        "n_rows": 44656,
+        "matrix_set_equals_target": true,
+        "matrix_set_equals_other_seed": false,
+        "missing_vs_target": 0,
+        "extra_vs_target": 0,
+        "intersection_vs_target": 2791,
+        "intersection_vs_other_seed": 423,
+        "val_metrics_n_matrices": 2791,
+        "val_metrics_matrix_macro_rmse": 0.1796940957710305,
+        "val_metrics_point_rmse": 0.20487354557323076,
+        "model_name": "m5_c3_film",
+        "variant": {
+          "name": "c3_film",
+          "description": "C2 + FiLM dose-conditioned drug-cell interaction.",
+          "symmetric_pair": true,
+          "dose_encoding": "fourier",
+          "film": true,
+          "mono_weight": 0.0,
+          "boundary_weight": 0.0,
+          "smooth_weight": 0.0
+        },
+        "epochs_config": 60,
+        "early_stop_metric_note": "M5 early stopping uses val matrix_macro_RMSE"
+      },
+      {
+        "run_id": "m5__s1_random_condition__seed_42__c4_mono",
+        "split_id": "seed_42",
+        "seed": 42,
+        "fold": null,
+        "n_matrices": 2791,
+        "n_rows": 44656,
+        "matrix_set_equals_target": true,
+        "matrix_set_equals_other_seed": false,
+        "missing_vs_target": 0,
+        "extra_vs_target": 0,
+        "intersection_vs_target": 2791,
+        "intersection_vs_other_seed": 423,
+        "val_metrics_n_matrices": 2791,
+        "val_metrics_matrix_macro_rmse": 0.17998202775581956,
+        "val_metrics_point_rmse": 0.2051713873086801,
+        "model_name": "m5_c4_mono",
+        "variant": {
+          "name": "c4_mono",
+          "description": "C3 + shared monotherapy head with protocol-controlled labels.",
+          "symmetric_pair": true,
+          "dose_encoding": "fourier",
+          "film": true,
+          "mono_weight": 0.1,
+          "boundary_weight": 0.0,
+          "smooth_weight": 0.0
+        },
+        "epochs_config": 60,
+        "early_stop_metric_note": "M5 early stopping uses val matrix_macro_RMSE"
+      },
+      {
+        "run_id": "m5__s1_random_condition__seed_42__c5_boundary",
+        "split_id": "seed_42",
+        "seed": 42,
+        "fold": null,
+        "n_matrices": 2791,
+        "n_rows": 44656,
+        "matrix_set_equals_target": true,
+        "matrix_set_equals_other_seed": false,
+        "missing_vs_target": 0,
+        "extra_vs_target": 0,
+        "intersection_vs_target": 2791,
+        "intersection_vs_other_seed": 423,
+        "val_metrics_n_matrices": 2791,
+        "val_metrics_matrix_macro_rmse": 0.18026810586210232,
+        "val_metrics_point_rmse": 0.2051154457838813,
+        "model_name": "m5_c5_boundary",
+        "variant": {
+          "name": "c5_boundary",
+          "description": "C4 + virtual zero-dose boundary consistency.",
+          "symmetric_pair": true,
+          "dose_encoding": "fourier",
+          "film": true,
+          "mono_weight": 0.1,
+          "boundary_weight": 0.02,
+          "smooth_weight": 0.0
+        },
+        "epochs_config": 60,
+        "early_stop_metric_note": "M5 early stopping uses val matrix_macro_RMSE"
+      },
+      {
+        "run_id": "m5__s1_random_condition__seed_42__c6_full",
+        "split_id": "seed_42",
+        "seed": 42,
+        "fold": null,
+        "n_matrices": 2791,
+        "n_rows": 44656,
+        "matrix_set_equals_target": true,
+        "matrix_set_equals_other_seed": false,
+        "missing_vs_target": 0,
+        "extra_vs_target": 0,
+        "intersection_vs_target": 2791,
+        "intersection_vs_other_seed": 423,
+        "val_metrics_n_matrices": 2791,
+        "val_metrics_matrix_macro_rmse": 0.18700374408933168,
+        "val_metrics_point_rmse": 0.20901873416363406,
+        "model_name": "m5_c6_full",
+        "variant": {
+          "name": "c6_full",
+          "description": "C5 + non-uniform local surface smoothness.",
+          "symmetric_pair": true,
+          "dose_encoding": "fourier",
+          "film": true,
+          "mono_weight": 0.1,
+          "boundary_weight": 0.02,
+          "smooth_weight": 0.01
+        },
+        "epochs_config": 60,
+        "early_stop_metric_note": "M5 early stopping uses val matrix_macro_RMSE"
+      }
+    ],
+    "all_runs_use_target": true,
+    "any_run_uses_other_seed": false
+  },
+  "m5_s3_fold0": {
+    "target_split": "/home/kouzheng_2/AH_YeP/DoseSyn/data/splits/s3_unseen_cell/fold_0",
+    "n_target_val_matrices": 3836,
+    "runs": [
+      {
+        "run_id": "m5__s3_unseen_cell__fold_0__c0_control",
+        "split_id": "fold_0",
+        "seed": null,
+        "fold": 0,
+        "n_matrices": 3836,
+        "n_rows": 61376,
+        "matrix_set_equals_target": true,
+        "matrix_set_equals_other_seed": true,
+        "missing_vs_target": 0,
+        "extra_vs_target": 0,
+        "intersection_vs_target": 3836,
+        "intersection_vs_other_seed": 3836,
+        "val_metrics_n_matrices": 3836,
+        "val_metrics_matrix_macro_rmse": 0.22889468443814112,
+        "val_metrics_point_rmse": 0.2480327790794117,
+        "model_name": "m5_c0_control",
+        "variant": {
+          "name": "c0_control",
+          "description": "M5-compatible control: ordered pair head, scalar dose, no FiLM, no auxiliary losses.",
+          "symmetric_pair": false,
+          "dose_encoding": "scalar",
+          "film": false,
+          "mono_weight": 0.0,
+          "boundary_weight": 0.0,
+          "smooth_weight": 0.0
+        },
+        "epochs_config": 60,
+        "early_stop_metric_note": "M5 early stopping uses val matrix_macro_RMSE"
+      },
+      {
+        "run_id": "m5__s3_unseen_cell__fold_0__c1_symmetric",
+        "split_id": "fold_0",
+        "seed": null,
+        "fold": 0,
+        "n_matrices": 3836,
+        "n_rows": 61376,
+        "matrix_set_equals_target": true,
+        "matrix_set_equals_other_seed": true,
+        "missing_vs_target": 0,
+        "extra_vs_target": 0,
+        "intersection_vs_target": 3836,
+        "intersection_vs_other_seed": 3836,
+        "val_metrics_n_matrices": 3836,
+        "val_metrics_matrix_macro_rmse": 0.23254749218284249,
+        "val_metrics_point_rmse": 0.25257775666492377,
+        "model_name": "m5_c1_symmetric",
+        "variant": {
+          "name": "c1_symmetric",
+          "description": "Strictly symmetric pair fusion with scalar dose, no FiLM.",
+          "symmetric_pair": true,
+          "dose_encoding": "scalar",
+          "film": false,
+          "mono_weight": 0.0,
+          "boundary_weight": 0.0,
+          "smooth_weight": 0.0
+        },
+        "epochs_config": 60,
+        "early_stop_metric_note": "M5 early stopping uses val matrix_macro_RMSE"
+      },
+      {
+        "run_id": "m5__s3_unseen_cell__fold_0__c2_fourier",
+        "split_id": "fold_0",
+        "seed": null,
+        "fold": 0,
+        "n_matrices": 3836,
+        "n_rows": 61376,
+        "matrix_set_equals_target": true,
+        "matrix_set_equals_other_seed": true,
+        "missing_vs_target": 0,
+        "extra_vs_target": 0,
+        "intersection_vs_target": 3836,
+        "intersection_vs_other_seed": 3836,
+        "val_metrics_n_matrices": 3836,
+        "val_metrics_matrix_macro_rmse": 0.23243815341164553,
+        "val_metrics_point_rmse": 0.25158556988878744,
+        "model_name": "m5_c2_fourier",
+        "variant": {
+          "name": "c2_fourier",
+          "description": "C1 + Fourier continuous dose encoding.",
+          "symmetric_pair": true,
+          "dose_encoding": "fourier",
+          "film": false,
+          "mono_weight": 0.0,
+          "boundary_weight": 0.0,
+          "smooth_weight": 0.0
+        },
+        "epochs_config": 60,
+        "early_stop_metric_note": "M5 early stopping uses val matrix_macro_RMSE"
+      },
+      {
+        "run_id": "m5__s3_unseen_cell__fold_0__c3_film",
+        "split_id": "fold_0",
+        "seed": null,
+        "fold": 0,
+        "n_matrices": 3836,
+        "n_rows": 61376,
+        "matrix_set_equals_target": true,
+        "matrix_set_equals_other_seed": true,
+        "missing_vs_target": 0,
+        "extra_vs_target": 0,
+        "intersection_vs_target": 3836,
+        "intersection_vs_other_seed": 3836,
+        "val_metrics_n_matrices": 3836,
+        "val_metrics_matrix_macro_rmse": 0.22996592895650853,
+        "val_metrics_point_rmse": 0.24794244559802203,
+        "model_name": "m5_c3_film",
+        "variant": {
+          "name": "c3_film",
+          "description": "C2 + FiLM dose-conditioned drug-cell interaction.",
+          "symmetric_pair": true,
+          "dose_encoding": "fourier",
+          "film": true,
+          "mono_weight": 0.0,
+          "boundary_weight": 0.0,
+          "smooth_weight": 0.0
+        },
+        "epochs_config": 60,
+        "early_stop_metric_note": "M5 early stopping uses val matrix_macro_RMSE"
+      },
+      {
+        "run_id": "m5__s3_unseen_cell__fold_0__c6_full",
+        "split_id": "fold_0",
+        "seed": null,
+        "fold": 0,
+        "n_matrices": 3836,
+        "n_rows": 61376,
+        "matrix_set_equals_target": true,
+        "matrix_set_equals_other_seed": true,
+        "missing_vs_target": 0,
+        "extra_vs_target": 0,
+        "intersection_vs_target": 3836,
+        "intersection_vs_other_seed": 3836,
+        "val_metrics_n_matrices": 3836,
+        "val_metrics_matrix_macro_rmse": 0.2330918759567691,
+        "val_metrics_point_rmse": 0.2504170734724816,
+        "model_name": "m5_c6_full",
+        "variant": {
+          "name": "c6_full",
+          "description": "C5 + non-uniform local surface smoothness.",
+          "symmetric_pair": true,
+          "dose_encoding": "fourier",
+          "film": true,
+          "mono_weight": 0.1,
+          "boundary_weight": 0.02,
+          "smooth_weight": 0.01
+        },
+        "epochs_config": 60,
+        "early_stop_metric_note": "M5 early stopping uses val matrix_macro_RMSE"
+      }
+    ],
+    "all_runs_use_target": true,
+    "any_run_uses_other_seed": true
+  },
+  "m4_b3_s1_seed42": {
+    "run_id": "b3_gine__s1_random_condition__seed_42",
+    "split_id": null,
+    "n_matrices": 2791,
+    "n_rows": 44656,
+    "matrix_set_equals_target": true,
+    "n_missing_vs_target": 0,
+    "stored_val_metrics": {
+      "n_matrices": 2791,
+      "n_points": 44656,
+      "matrix_macro_rmse": 0.08005502365786027,
+      "matrix_macro_mae": 0.06462185387156615,
+      "condition_macro_rmse": 0.07982509035916673,
+      "point_rmse": 0.09502250545688158,
+      "point_mae": 0.06462185387156615,
+      "pooled_pearson": 0.9545984410869212,
+      "r2": 0.9109291309308044,
+      "matrix_pearson_mean": 0.9267269016641623,
+      "n_matrix_pearson_undefined": 0,
+      "y_true_min": 0.0,
+      "y_true_max": 1.638069987297058,
+      "y_true_mean": 0.5691502622289107,
+      "y_pred_min": -0.13458235561847687,
+      "y_pred_max": 1.3210352659225464,
+      "y_pred_mean": 0.5744785202461232,
+      "n_y_true_gt1": 3072,
+      "n_y_true_eq0": 14,
+      "n_y_pred_negative": 401
+    },
+    "recomputed_val_metrics": {
+      "n_matrices": 2791,
+      "n_points": 44656,
+      "matrix_macro_rmse": 0.08005502365786027,
+      "matrix_macro_mae": 0.06462185387156615,
+      "condition_macro_rmse": 0.07982509035916673,
+      "point_rmse": 0.09502250545688158,
+      "point_mae": 0.06462185387156615,
+      "pooled_pearson": 0.9545984410869212,
+      "r2": 0.9109291309308044,
+      "matrix_pearson_mean": 0.9267269016641623,
+      "n_matrix_pearson_undefined": 0,
+      "y_true_min": 0.0,
+      "y_true_max": 1.638069987297058,
+      "y_true_mean": 0.5691502622289107,
+      "y_pred_min": -0.13458235561847687,
+      "y_pred_max": 1.3210352659225464,
+      "y_pred_mean": 0.5744785202461232,
+      "n_y_true_gt1": 3072,
+      "n_y_true_eq0": 14,
+      "n_y_pred_negative": 401
+    },
+    "max_abs_metric_diff": 0.0,
+    "checkpoint": {
+      "path": "/home/kouzheng_2/AH_YeP/DoseSyn/outputs/runs/m4/b3_gine__s1_random_condition__seed_42/best.pt",
+      "epoch": 77,
+      "n_parameters_from_state_dict": 284548,
+      "n_parameters_from_resources": 284545,
+      "checkpoint_val_macro_rmse_field": 0.09502250633358666,
+      "used_for_early_stopping": "M4 selects on validation point RMSE (see _train_dl)"
+    }
+  },
+  "m4_b3_s3_fold0": {
+    "run_id": "b3_gine__s3_unseen_cell__fold_0",
+    "split_id": null,
+    "n_matrices": 3836,
+    "n_rows": 61376,
+    "matrix_set_equals_target": true,
+    "n_missing_vs_target": 0,
+    "stored_val_metrics": {
+      "n_matrices": 3836,
+      "n_points": 61376,
+      "matrix_macro_rmse": 0.16814227480724744,
+      "matrix_macro_mae": 0.14334856389032474,
+      "condition_macro_rmse": 0.16832604498542075,
+      "point_rmse": 0.1854894278747519,
+      "point_mae": 0.14334856389032474,
+      "pooled_pearson": 0.820035553722104,
+      "r2": 0.6682346807541127,
+      "matrix_pearson_mean": 0.8763688936491473,
+      "n_matrix_pearson_undefined": 0,
+      "y_true_min": 9.000000136438757e-05,
+      "y_true_max": 1.329990029335022,
+      "y_true_mean": 0.5688168325745916,
+      "y_pred_min": -0.2802295386791229,
+      "y_pred_max": 1.2394760847091675,
+      "y_pred_mean": 0.5709141068488536,
+      "n_y_true_gt1": 4136,
+      "n_y_true_eq0": 0,
+      "n_y_pred_negative": 552
+    },
+    "recomputed_val_metrics": {
+      "n_matrices": 3836,
+      "n_points": 61376,
+      "matrix_macro_rmse": 0.16814227480724744,
+      "matrix_macro_mae": 0.14334856389032474,
+      "condition_macro_rmse": 0.16832604498542075,
+      "point_rmse": 0.1854894278747519,
+      "point_mae": 0.14334856389032474,
+      "pooled_pearson": 0.820035553722104,
+      "r2": 0.6682346807541127,
+      "matrix_pearson_mean": 0.8763688936491473,
+      "n_matrix_pearson_undefined": 0,
+      "y_true_min": 9.000000136438757e-05,
+      "y_true_max": 1.329990029335022,
+      "y_true_mean": 0.5688168325745916,
+      "y_pred_min": -0.2802295386791229,
+      "y_pred_max": 1.2394760847091675,
+      "y_pred_mean": 0.5709141068488536,
+      "n_y_true_gt1": 4136,
+      "n_y_true_eq0": 0,
+      "n_y_pred_negative": 552
+    },
+    "max_abs_metric_diff": 0.0,
+    "checkpoint": {
+      "path": "/home/kouzheng_2/AH_YeP/DoseSyn/outputs/runs/m4/b3_gine__s3_unseen_cell__fold_0/best.pt",
+      "epoch": 22,
+      "n_parameters_from_state_dict": 284548,
+      "n_parameters_from_resources": 284545,
+      "checkpoint_val_macro_rmse_field": 0.18548942821004344,
+      "used_for_early_stopping": "M4 selects on validation point RMSE (see _train_dl)"
+    }
+  },
+  "prediction_alignment": {
+    "n_m4_rows": 44656,
+    "n_m5_rows": 44656,
+    "n_common_keys": 44656,
+    "n_label_mismatch": 0,
+    "max_abs_dose_a_diff": 0.0,
+    "max_abs_dose_b_diff": 0.0,
+    "same_matrix_set": true
+  },
+  "frozen_m3_hashes": {
+    "data/processed/matrix_feature_index.parquet": {
+      "expected": "84880290f093aa91e05e7657005f8d5cec18fe6925cb9e357cc071486ee5ce4b",
+      "actual": "84880290f093aa91e05e7657005f8d5cec18fe6925cb9e357cc071486ee5ce4b",
+      "unchanged": true
+    },
+    "data/processed/condition_feature_index.parquet": {
+      "expected": "a0e1667925519b0ac315add8aeef7e391fa85d6d8fcfbdca89323ba7a9699b83",
+      "actual": "a0e1667925519b0ac315add8aeef7e391fa85d6d8fcfbdca89323ba7a9699b83",
+      "unchanged": true
+    },
+    "data/processed/mono_feature_index.parquet": {
+      "expected": "3ea2df807b6bb6bbfe8aa70cbd3bdcd207973706b76bcf3847ea87974df3c145",
+      "actual": "3ea2df807b6bb6bbfe8aa70cbd3bdcd207973706b76bcf3847ea87974df3c145",
+      "unchanged": true
+    },
+    "data/processed/oneil_combo_matrix_metadata.parquet": {
+      "expected": "beaa0126365c09e13222d6fea98d7022ebc293338fa681c8aa2df93af66ea86d",
+      "actual": "beaa0126365c09e13222d6fea98d7022ebc293338fa681c8aa2df93af66ea86d",
+      "unchanged": true
+    },
+    "data/processed/oneil_combo_points.parquet": {
+      "expected": "906c922d673c0d692d24629966478f1d7aba1b0a30f68a1479b3d828b7413760",
+      "actual": "906c922d673c0d692d24629966478f1d7aba1b0a30f68a1479b3d828b7413760",
+      "unchanged": true
+    },
+    "data/processed/oneil_mono_curve_metadata.parquet": {
+      "expected": "284f4518f5165d563a2d7d5fa1a966af2711a8a30f35634b5b4f04af4c733598",
+      "actual": "284f4518f5165d563a2d7d5fa1a966af2711a8a30f35634b5b4f04af4c733598",
+      "unchanged": true
+    },
+    "data/processed/oneil_monotherapy.parquet": {
+      "expected": "acabe2c2c3f61f07aa82357970b97f2cac579dea097981ea9ec9c0af58448144",
+      "actual": "acabe2c2c3f61f07aa82357970b97f2cac579dea097981ea9ec9c0af58448144",
+      "unchanged": true
+    },
+    "data/processed/drug_mapping.csv": {
+      "expected": "60c1ed25499471a1098b3fa98be8129f82b5ae39fb6e87f1808c379526dae3b6",
+      "actual": "60c1ed25499471a1098b3fa98be8129f82b5ae39fb6e87f1808c379526dae3b6",
+      "unchanged": true
+    },
+    "data/processed/cell_mapping.csv": {
+      "expected": "7a392eb67cf1cbf2b5b8fbb0eed577b6e22f89c41ecf3ee912da570714270e5d",
+      "actual": "7a392eb67cf1cbf2b5b8fbb0eed577b6e22f89c41ecf3ee912da570714270e5d",
+      "unchanged": true
+    },
+    "data/processed/drug_graph_features.pt": {
+      "expected": "f579729c945a3cfb36eff4eeda87540b23c6a587f1ef29c2ffb7fec1c36ef7ad",
+      "actual": "f579729c945a3cfb36eff4eeda87540b23c6a587f1ef29c2ffb7fec1c36ef7ad",
+      "unchanged": true
+    },
+    "data/processed/drug_graph_metadata.json": {
+      "expected": "85cadcbfdeadce3699ceeb41fe09e1709d9ef42060b0c4ac3ac62c767604252c",
+      "actual": "85cadcbfdeadce3699ceeb41fe09e1709d9ef42060b0c4ac3ac62c767604252c",
+      "unchanged": true
+    },
+    "data/processed/cell_expression.parquet": {
+      "expected": "8d6cc51d7940cbfca42adb2300e10df4568044e8dc93dcb51256eb13637dab78",
+      "actual": "8d6cc51d7940cbfca42adb2300e10df4568044e8dc93dcb51256eb13637dab78",
+      "unchanged": true
+    },
+    "data/processed/cell_features.parquet": {
+      "expected": "031f4fc91181f63ee818a06921e3ed3835f7e8058a84d6283f45020188759f8e",
+      "actual": "031f4fc91181f63ee818a06921e3ed3835f7e8058a84d6283f45020188759f8e",
+      "unchanged": true
+    },
+    "data/processed/pathway_features.parquet": {
+      "expected": "7b41b1ca720eb1f3c4e2a83d42d0123b683b67fb1d468ae6adb8f3cc5161f24a",
+      "actual": "7b41b1ca720eb1f3c4e2a83d42d0123b683b67fb1d468ae6adb8f3cc5161f24a",
+      "unchanged": true
+    },
+    "data/processed/pathway_metadata.csv": {
+      "expected": "1c4d6a72ed2d129ecbb177855371a1bd165f19980575d1a82d9fdacf71b217be",
+      "actual": "1c4d6a72ed2d129ecbb177855371a1bd165f19980575d1a82d9fdacf71b217be",
+      "unchanged": true
+    },
+    "data/processed/oneil_primary_v1_matrix_index.parquet": {
+      "expected": "ae9254bb490762d4214cce7cd1b5a7989f5707735853803709db0c0ac7f45454",
+      "actual": "ae9254bb490762d4214cce7cd1b5a7989f5707735853803709db0c0ac7f45454",
+      "unchanged": true
+    },
+    "data/processed/oneil_primary_v1_mono_index.parquet": {
+      "expected": "f16efe9995d7bab2063608e1575eb74f0edf791f7749cce83c4aec206f52559c",
+      "actual": "f16efe9995d7bab2063608e1575eb74f0edf791f7749cce83c4aec206f52559c",
+      "unchanged": true
+    },
+    "data/processed/oneil_primary_v1_exclusions.parquet": {
+      "expected": "1e4b2268c9036dc5affbf9abf321688f7383331d394c16fa54f6b35c8d46bf2d",
+      "actual": "1e4b2268c9036dc5affbf9abf321688f7383331d394c16fa54f6b35c8d46bf2d",
+      "unchanged": true
+    }
+  },
+  "pytest": {
+    "log": "outputs/audit/pytest_m6.log",
+    "summary": "165 passed in 41.52s"
+  },
+  "checks": [
+    {
+      "name": "seed42_metadata_counts",
+      "status": "PASS",
+      "detail": {
+        "train": 13022,
+        "val": 2791,
+        "test": 2786
+      }
+    },
+    {
+      "name": "seed42_val_matrix_set_size",
+      "status": "PASS",
+      "detail": 2791
+    },
+    {
+      "name": "m5_seed42_uses_seed42",
+      "status": "PASS",
+      "detail": "7/7 runs"
+    },
+    {
+      "name": "m5_seed42_not_seed13",
+      "status": "PASS",
+      "detail": "no run val set equals seed13 val set"
+    },
+    {
+      "name": "m4_seed42_uses_seed42",
+      "status": "PASS",
+      "detail": 2791
+    },
+    {
+      "name": "m4_m5_same_labels_doses",
+      "status": "PASS",
+      "detail": {
+        "n_m4_rows": 44656,
+        "n_m5_rows": 44656,
+        "n_common_keys": 44656,
+        "n_label_mismatch": 0,
+        "max_abs_dose_a_diff": 0.0,
+        "max_abs_dose_b_diff": 0.0,
+        "same_matrix_set": true
+      }
+    },
+    {
+      "name": "metric_recompute_matches_stored",
+      "status": "PASS",
+      "detail": 0.0
+    },
+    {
+      "name": "m5_s3_uses_fold0",
+      "status": "PASS",
+      "detail": "5/5"
+    },
+    {
+      "name": "m4_s3_uses_fold0",
+      "status": "PASS",
+      "detail": 3836
+    },
+    {
+      "name": "m3_frozen_hashes_unchanged",
+      "status": "PASS",
+      "detail": "18/18 files"
+    },
+    {
+      "name": "c0_is_not_b3_reproduction",
+      "status": "WARN",
+      "detail": "params 559,299 vs 284,545; different dose/fusion/activation/budget/early-stop metric"
+    },
+    {
+      "name": "m4_train_log_metric_label",
+      "status": "WARN",
+      "detail": "M4 train_log val column is point RMSE despite its name; stored val_metrics/checkpoint are authoritative"
+    }
+  ],
+  "gate_pass": true,
+  "conclusion": "M5 S1 seed42 的 run 实际读取的是 seed42 val（2,791 个矩阵），不是 seed13；错误只出现在 M5 对外摘要的计数文字（13,026/2,788/2,785），训练/预测/指标均未混用 seed13。"
+}
