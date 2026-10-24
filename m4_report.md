@@ -1,5 +1,5 @@
 # DoseSyn M4 基线训练报告
-生成时间：2026-10-24T07:33:34+00:00  
+生成时间：2026-10-24T07:41:02+00:00  
 配置：`configs/m4_training.yaml`（m4-v1）
 ## 1. 结论
 - 成功运行 **44** 个（失败 0 个）。按 scenario 等权平均的测试 `matrix_macro_RMSE` 最优模型为 **B3 GINE-Base**（0.1228）。
@@ -30,7 +30,7 @@
 - 负预测点数: 10379
 - 早停依据: 仅验证集 matrix_macro_RMSE
 - 随机种子: [13, 42, 2026]
-- Git commit: 5d8a3097c469fe54cd6258619cee562a08675373
+- Git commit: 7c343ad86981f15b451e8fdfc1b8ad8554b2a253
 
 ## 4. 各模型 × 场景测试结果
 | 模型 | 场景 | runs | macro RMSE | ±std | point RMSE | Pearson | R² | 参数量 |
