@@ -1,0 +1,10 @@
+scenario: S1
+name: Random-condition
+group_key: condition_id
+seeds: [13, 42, 2026]
+fractions: {train: 0.70, val: 0.15, test: 0.15}
+mono_policy: known_monotherapy
+notes: >
+  Conditions are grouped by unordered_pair_id + cell_id. All 16 dose points,
+  batches and replicate measurements of a condition stay in one split.
+  Different splits may share drugs and cells by design.

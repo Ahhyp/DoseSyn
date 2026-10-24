@@ -99,3 +99,38 @@ def anomalies(cfg):
 @pytest.fixture(scope="session")
 def batch_repeats(cfg):
     return pd.read_csv(Path(cfg["paths"]["audit_dir"]) / "batch_repeats.csv")
+
+
+# ---------------------------------------------------------------------------
+# M3 fixtures
+# ---------------------------------------------------------------------------
+@pytest.fixture(scope="session")
+def m3_cfg():
+    return load_config(ROOT / "configs" / "dataset_primary_v1.yaml")
+
+
+@pytest.fixture(scope="session")
+def m3_primary(m3_cfg):
+    p = Path(m3_cfg["outputs"]["matrix_index"])
+    if not p.exists():
+        pytest.fail(f"primary index missing: {p} (run scripts/03_generate_splits.py)")
+    return pd.read_parquet(p)
+
+
+@pytest.fixture(scope="session")
+def m3_input_manifest(m3_cfg):
+    return read_json(Path(m3_cfg["outputs"]["input_manifest"]))
+
+
+@pytest.fixture(scope="session")
+def m3_split_dirs(m3_cfg):
+    root = Path(m3_cfg["outputs"]["splits_dir"])
+    dirs = []
+    for scenario in ("s1_random_condition", "s2_unseen_pair", "s3_unseen_cell"):
+        for sub in sorted((root / scenario).glob("*")):
+            if (sub / "split_metadata.json").exists():
+                dirs.append((scenario, sub))
+    if not dirs:
+        pytest.fail("no M3 splits found (run scripts/03_generate_splits.py)")
+    return dirs
+

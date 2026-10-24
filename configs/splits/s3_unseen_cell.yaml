@@ -1,0 +1,10 @@
+scenario: S3
+name: Unseen-cell
+group_key: cell_id
+n_folds: 5
+mono_policy: strict_cell_isolation
+notes: >
+  Cells are partitioned into 5 folds. For outer fold k: fold k is test, fold
+  (k+1) mod 5 is validation, the remaining three folds are training. Cells,
+  and therefore conditions, never cross splits. Monotherapy curves of test and
+  validation cells are held out from training and from all scaler fits.

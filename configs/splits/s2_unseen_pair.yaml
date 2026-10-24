@@ -1,0 +1,10 @@
+scenario: S2
+name: Unseen-pair
+group_key: pair_id
+seeds: [13, 42, 2026]
+fractions: {train: 0.70, val: 0.15, test: 0.15}
+mono_policy: known_monotherapy
+notes: >
+  Unordered drug pairs are assigned as indivisible groups. A pair in test or
+  validation never occurs in train; individual drugs may be shared, which is
+  allowed and must not be reported as leakage.

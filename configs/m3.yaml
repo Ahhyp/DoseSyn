@@ -1,0 +1,46 @@
+# DoseSyn M3 — split / loader configuration
+version: m3-v1
+dataset_config: configs/dataset_primary_v1.yaml
+
+primary:
+  name: ONEIL_PRIMARY_V1
+  frozen: true
+  excluded_drugs: [Carboplatin, Oxaliplatin]
+  excluded_reason: Pt coordination not encoded by RDKit graph; retained in mappings, not model-ready
+  label_column: x_x0_raw
+  clip_labels: false
+  points_per_matrix: 16
+
+split:
+  seeds: [13, 42, 2026]
+  fractions: [0.70, 0.15, 0.15]
+  s1: {unit: condition_id, name: Random-condition, mono_policy: known_monotherapy}
+  s2: {unit: pair_id, name: Unseen-pair, mono_policy: known_monotherapy}
+  s3: {unit: cell_id, name: Unseen-cell, n_folds: 5, mono_policy: strict_cell_isolation}
+  atomicity:
+    - all 4x4 matrices of a condition stay in one split
+    - all batches of a condition stay in one split
+    - no random point-level split
+  known_monotherapy_warning: >-
+    S1/S2 use all measured single-agent curves as auxiliary supervision.
+    They are known prior labels, not an independent monotherapy test set.
+  strict_monotherapy_rule: >-
+    S3 trains monotherapy only on training cells; validation/test cell mono
+    labels are excluded from training and from every scaler fit.
+
+transforms:
+  fit_scope: training cells and training doses only
+  pathway: zscore(mean, std, ddof=0)
+  expression: zscore(optional, same train cells)
+  dose: log10(molar), zscore on train non-zero doses
+  zero_dose: explicit zero_flag, log10 is NaN at zero
+  imputation: train median (no full-data statistic)
+
+loader:
+  cell_features: 50 Hallmark scores (optionally + expression)
+  drug_graph_node_features: 9
+  drug_graph_edge_features: 4
+  label: raw X/X0 4x4
+  batch_size: 8
+  num_workers: 0
+  smoke_scenarios: [s1 seed 13, s2 seed 42, s3 fold 2]

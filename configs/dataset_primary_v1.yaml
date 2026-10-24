@@ -1,0 +1,75 @@
+# DoseSyn M3 — frozen primary dataset (ONEIL_PRIMARY_V1)
+# Inputs are read-only M1/M2 artefacts. Paths are project-relative unless absolute.
+dataset_version: oneil-primary-v1
+generated_by: scripts/03_generate_splits.py
+
+inputs:
+  matrix_feature_index: data/processed/matrix_feature_index.parquet
+  condition_feature_index: data/processed/condition_feature_index.parquet
+  mono_feature_index: data/processed/mono_feature_index.parquet
+  combo_matrix_metadata: data/processed/oneil_combo_matrix_metadata.parquet
+  combo_points: data/processed/oneil_combo_points.parquet
+  mono_curve_metadata: data/processed/oneil_mono_curve_metadata.parquet
+  mono_points: data/processed/oneil_monotherapy.parquet
+  drug_mapping: data/processed/drug_mapping.csv
+  cell_mapping: data/processed/cell_mapping.csv
+  drug_graphs: data/processed/drug_graph_features.pt
+  drug_graph_metadata: data/processed/drug_graph_metadata.json
+  cell_expression: data/processed/cell_expression.parquet
+  cell_features: data/processed/cell_features.parquet
+  pathway_features: data/processed/pathway_features.parquet
+  pathway_metadata: data/processed/pathway_metadata.csv
+
+outputs:
+  matrix_index: data/processed/oneil_primary_v1_matrix_index.parquet
+  mono_index: data/processed/oneil_primary_v1_mono_index.parquet
+  exclusions: data/processed/oneil_primary_v1_exclusions.parquet
+  splits_dir: data/splits
+  input_manifest: outputs/audit/m3_input_manifest.json
+  manifest: outputs/audit/m3_manifest.json
+  leakage_report: outputs/audit/m3_leakage_report.json
+  docs: docs/decisions/m3_primary_dataset.md
+
+filters:
+  # Pt graph representation not settled; entities retained in mappings/exclusions.
+  excluded_drugs: [Carboplatin, Oxaliplatin]
+  require_graph_ok: true
+  require_cell_feature_complete: true
+  require_complete_matrix: true
+  require_positive_dose: true
+  label_column: x_x0_raw
+  # Raw labels are never clipped or sigmoid-transformed.
+  clip_labels: false
+
+split:
+  seeds: [13, 42, 2026]
+  fractions: [0.70, 0.15, 0.15]
+  s3_folds: 5
+
+expected:
+  matrices: 18599
+  conditions: 18326
+  cells: 34
+  drugs: 36
+  pairs: 539
+  mono_curves: 1782
+  points: 297584
+  points_per_matrix: 16
+
+scenarios:
+  S1:
+    name: Random-condition
+    group_key: condition_id
+    config: configs/splits/s1_random_condition.yaml
+    mono_policy: known_monotherapy
+  S2:
+    name: Unseen-pair
+    group_key: pair_id
+    config: configs/splits/s2_unseen_pair.yaml
+    mono_policy: known_monotherapy
+  S3:
+    name: Unseen-cell
+    group_key: cell_id
+    config: configs/splits/s3_unseen_cell.yaml
+    n_folds: 5
+    mono_policy: strict_cell_isolation

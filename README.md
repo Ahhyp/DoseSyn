@@ -1,10 +1,14 @@
-# DoseSyn — O'Neil 双药组合数据标准化工程
+# DoseSyn — 双药组合数据、特征与基准划分工程
 
-本项目当前完成 **M0（原始数据审计）**、**M1（标准化预处理）** 与
-**M2（药物结构、细胞系、表达谱与 Hallmark 特征构建）**，尚未实现任何神经网络、
-特征选择或 M3 训练/划分流程。M2 详细说明见
-[`docs/decisions/m2_feature_spec.md`](docs/decisions/m2_feature_spec.md) 和
-[`m2_report.md`](m2_report.md)。
+本项目已完成 **M0（原始数据审计）**、**M1（标准化预处理）**、
+**M2（药物结构、细胞系、表达谱与 Hallmark 特征构建）** 与
+**M3（Primary-v1 数据集冻结、S1/S2/S3 划分、单药监督隔离、训练折专属变换与加载接口）**。
+当前**尚未实现或训练任何神经网络**，也未进入 M4。M2 见
+[`docs/decisions/m2_feature_spec.md`](docs/decisions/m2_feature_spec.md) 与
+[`m2_report.md`](m2_report.md)；M3 见
+[`docs/decisions/m3_primary_dataset.md`](docs/decisions/m3_primary_dataset.md)、
+[`docs/decisions/m3_split_protocols.md`](docs/decisions/m3_split_protocols.md) 与
+[`m3_report.md`](m3_report.md)。
 
 ## 1. 结论速览
 
@@ -204,3 +208,42 @@ M2 关键结果：
 
 无法映射的实体、受影响矩阵数量及处理理由见 `m2_report.md` 第 6 节。
 
+
+
+## 11. M3：数据集冻结与基准划分
+
+### 11.1 命令
+
+```bash
+cd /home/kouzheng_2/AH_YeP/DoseSyn
+
+.venv/bin/python scripts/03_generate_splits.py --scenario all  # 冻结 + 11 个 split
+.venv/bin/python scripts/03_verify_splits.py                  # 泄漏复核
+.venv/bin/python -m pytest -q tests                            # 全量测试
+.venv/bin/python scripts/04_write_m3_report.py                 # m3_report.md
+```
+
+### 11.2 产物
+
+- `data/processed/oneil_primary_v1_{matrix,mono}_index.parquet`
+- `data/processed/oneil_primary_v1_exclusions.parquet`
+- `data/splits/{s1_random_condition,s2_unseen_pair,s3_unseen_cell}/...`
+  （每个目录含 `train/val/test_conditions.parquet`、`mono_assignments.parquet`、
+  `scalers.joblib`、`split_metadata.json`）
+- `outputs/audit/m3_{input_manifest,manifest,leakage_report}.json`
+- `m3_report.md`
+
+### 11.3 关键结果
+
+| 指标 | 结果 |
+| --- | --- |
+| Primary-v1 矩阵 / 单药曲线 | 18,599 / 1,782 |
+| 条件 / 细胞系 / 药物 / 无序对 | 18,326 / 34 / 36 / 539 |
+| S1（condition，3 seeds） | 70/15/15，matrix 约 13.0k/2.8k/2.8k |
+| S2（unseen pair，3 seeds） | 70/15/15，pair 完全隔离 |
+| S3（unseen cell，5 folds） | test 6–7 细胞/折，val 6–7，train 20–21 |
+| 单药监督 | S1/S2 已知先验（1,782）；S3 严格隔离（990 trainable / 792 sealed） |
+| 泄漏检查 | 11/11 split PASS |
+| 自动测试 | 114 passed（M0/M1/M2 81 + M3 33） |
+
+M3 未创建任何模型代码，也未生成训练/验证/测试集之外的调参结果。
