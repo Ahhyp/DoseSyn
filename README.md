@@ -1,14 +1,17 @@
 # DoseSyn — 双药组合数据、特征与基准划分工程
 
 本项目已完成 **M0（原始数据审计）**、**M1（标准化预处理）**、
-**M2（药物结构、细胞系、表达谱与 Hallmark 特征构建）** 与
-**M3（Primary-v1 数据集冻结、S1/S2/S3 划分、单药监督隔离、训练折专属变换与加载接口）**。
-当前**尚未实现或训练任何神经网络**，也未进入 M4。M2 见
+**M2（药物结构、细胞系、表达谱与 Hallmark 特征构建）**、
+**M3（Primary-v1 数据集冻结、S1/S2/S3 划分、单药监督隔离、训练折专属变换与加载接口）**
+与 **M4（B0/B1/B2/B3 基线训练与统一评测框架）**。
+M4 仅是基线对照，**尚未实现完整 DoseSyn**（无 FiLM、单药边界、平滑正则或协同重建）。M2 见
 [`docs/decisions/m2_feature_spec.md`](docs/decisions/m2_feature_spec.md) 与
 [`m2_report.md`](m2_report.md)；M3 见
 [`docs/decisions/m3_primary_dataset.md`](docs/decisions/m3_primary_dataset.md)、
 [`docs/decisions/m3_split_protocols.md`](docs/decisions/m3_split_protocols.md) 与
-[`m3_report.md`](m3_report.md)。
+[`m3_report.md`](m3_report.md)；M4 见
+[`docs/decisions/m4_training_protocol.md`](docs/decisions/m4_training_protocol.md) 与
+[`m4_report.md`](m4_report.md)。
 
 ## 1. 结论速览
 
@@ -16,8 +19,11 @@
 | --- | --- |
 | M0 审计 | **PASS**（SHA256 一致、真实容器识别、行数对账、字段核对） |
 | M1 预处理 | **PASS**（368,832 双药点 / 23,052 矩阵 / 2,094 单药曲线） |
-| 自动测试 | **53 passed / 0 failed** |
-| M2 准入 | **可进入 M2**（无阻塞项） |
+| M2 特征 | **PASS**（38 药物 / 39 细胞 / 50 Hallmark；18,599 特征齐全矩阵） |
+| M3 数据冻结与划分 | **PASS**（11 个 split，泄漏检查 11/11） |
+| M4 基线 | **PASS**（44/44 运行成功；B3 等权平均 0.1228，B2 0.1273） |
+| 自动测试 | **131 passed / 0 failed** |
+| 下一阶段 | M5（完整 DoseSyn），尚未开始 |
 | 原始文件 | 只读；未修改、未覆盖、未重命名 |
 
 ## 2. 输入数据
@@ -247,3 +253,85 @@ cd /home/kouzheng_2/AH_YeP/DoseSyn
 | 自动测试 | 114 passed（M0/M1/M2 81 + M3 33） |
 
 M3 未创建任何模型代码，也未生成训练/验证/测试集之外的调参结果。
+
+## 12. M4 基线训练
+
+M4 的目标是建立统一训练/验证/测试、指标、checkpoint 与资源统计框架，并比较
+**B0 Mean**、**B1 Tree-Dose**、**B2 MLP-Dose**、**B3 GINE-Base** 四类基线。
+不包含 FiLM、单药边界、平滑正则或协同重建（留给 M5）。
+
+### 12.1 命令
+
+```bash
+cd /home/kouzheng_2/AH_YeP/DoseSyn
+
+# 单个 split（GPU 节点）
+/opt/software/torque-6.1.0/bin/qsub \
+  -v scenario=s1_random_condition,kind=seed,value=42,gpu=0 \
+  scripts/m4_gpu_job.pbs
+
+# S1 seed42 四模型（前台调试）
+.venv/bin/python scripts/04_run_baseline.py \
+  --scenario s1_random_condition --seed 42 \
+  --models b0_mean b1_tree b2_mlp b3_gine --device cuda
+
+# 汇总、作图、报告
+.venv/bin/python scripts/05_aggregate_m4.py
+
+# 全量测试（M0–M4）
+.venv/bin/python -m pytest -q tests
+```
+
+集群注意：node1 有 2×V100-32GB；Torque 不跟踪 GPU（`qnodes gres=` 为空），
+需人工看 `nvidia-smi`；PBS `-o` 不生效，作业脚本用 `exec > log 2>&1` 自重定向。
+
+### 12.2 产物
+
+- `outputs/runs/m4/<run_id>/`：`best.pt`、`train_log.csv`、`val/test_metrics.json`、
+  `predictions_{val,test}.parquet`、`resources.json`、`run_metadata.json`
+- `outputs/metrics/m4/{runs_summary,aggregate_summary,overall_by_model}.csv`、
+  `m4_summary.json`、`m4_report_manifest.json`
+- `outputs/figures/m4/`：逐 run 训练曲线 SVG、`macro_rmse_by_model_scenario.svg`
+- `m4_report.md`
+
+`predictions_test.parquet` 每矩阵 16 行，含 `matrix_id/condition_id/cell_id/drug_a_id/
+drug_b_id/row_idx/col_idx/dose_a_um/dose_b_um/y_true/y_pred/residual`；测试标签为原始
+`X/X0`，未裁剪，允许负预测。
+
+### 12.3 结果（测试集，11 个 split，44 个运行全部成功）
+
+| 模型 | S1 已见条件 | S2 未见药物对 | S3 未见细胞系 | 等权平均 |
+| --- | ---: | ---: | ---: | ---: |
+| B0 Mean | 0.3060 | 0.3022 | 0.3066 | 0.3049 |
+| B1 Tree-Dose | 0.2467 | 0.2497 | 0.2819 | 0.2594 |
+| B2 MLP-Dose | **0.0764** | **0.1022** | 0.2033 | 0.1273 |
+| B3 GINE-Base | 0.0795 | 0.0897 | **0.1994** | **0.1228** |
+
+数值为 `matrix_macro_RMSE`（先逐 4×4 矩阵算 RMSE，再对矩阵取宏平均，越低越好）。
+S1 跨 3 个种子，S2 跨 3 个种子，S3 跨 5 折。
+
+- **S1/S2**：B2 略优于 B3，二者都远优于 B1/B0。
+- **S3**：B3 略优于 B2，但两者相对 B0/B1 的优势明显缩小——未见细胞系是主要难点。
+- B0 的 R² 约为 0，说明简单均值基线没有解释力；B1 的 R² 在 S1/S2 约 0.28–0.32，
+  S3 降到约 0.13。
+
+### 12.4 防泄漏与可追溯
+
+- 直接读取 M3 冻结的 `train/val/test_conditions.parquet`；没有重新划分，
+  没有点级随机拆分，没有删除或改动任何测试矩阵。
+- 同 condition/batch 的 16 点矩阵始终在同一 split；S2 按无序药物对隔离；
+  S3 按细胞系隔离。
+- 特征标准化只使用 M3 训练折拟合的 `scalers.joblib`（路径和 fit 集合在
+  `split_metadata.json` 中可查）。
+- 早停与 LR 调度只看验证集；测试集只在训练结束后评估一次。
+- 每个 run 记录 `git_commit`、split/scaler 哈希、配置哈希、环境、参数量、
+  训练时间与 GPU 峰值显存。
+
+### 12.5 已知问题
+
+- 本阶段未做超参搜索；统一配置下 B2 在 S1/S2 略胜 B3，不能据此断言图结构无用。
+- S3 各折癌症类型不均衡（如 fold0 test 无前列腺细胞），指标方差较大。
+- 预测未做 `[0, 2.5]` 物理裁剪；如需约束应在模型侧实现，不能改测试标签。
+- B3 仅用均值池化 + 拼接，未使用 FiLM、单药边界、平滑正则或协同重建。
+- 正式训练前 2 个作业因安装 matplotlib 时损坏 numpy 失败，修复后重跑；
+  最终 44 个结果均来自成功作业。

@@ -1,0 +1,39 @@
+#!/bin/bash
+# DoseSyn M4 GPU job template (Torque/PBS).
+#
+# Usage:
+#   qsub -v scenario=s1_random_condition,kind=seed,value=42,gpu=0 scripts/m4_gpu_job.pbs
+#   qsub -v scenario=s3_unseen_cell,kind=fold,value=0,gpu=1 scripts/m4_gpu_job.pbs
+#
+# Notes:
+# - This cluster does not track GPUs in the scheduler (`qnodes gres=` is empty), so
+#   always check `nvidia-smi` on node1 before launching large sweeps.
+# - PBS `-o` does not deliver output here; the script redirects itself.
+# - `exec` must run before any command whose output you want captured.
+
+#PBS -N m4_run
+#PBS -l nodes=node1:ppn=4
+#PBS -q gentai
+#PBS -l walltime=03:00:00
+#PBS -j oe
+
+cd /home/kouzheng_2/AH_YeP/DoseSyn || exit 1
+exec > "outputs/logs/pbs_m4_${scenario}_${kind}${value}.log" 2>&1
+
+export PATH=/opt/software/torque-6.1.0/bin:$PATH
+export OMP_NUM_THREADS=4
+export CUDA_VISIBLE_DEVICES="${gpu:-0}"
+
+echo "job=${PBS_JOBID} scenario=${scenario} kind=${kind} value=${value} gpu=${gpu}"
+nvidia-smi --query-gpu=index,name,memory.used,utilization.gpu --format=csv
+
+if [ "${kind}" = "fold" ]; then
+  EXTRA="--fold ${value}"
+else
+  EXTRA="--seed ${value}"
+fi
+
+.venv/bin/python scripts/04_run_baseline.py \
+  --scenario "${scenario}" ${EXTRA} \
+  --models b0_mean b1_tree b2_mlp b3_gine \
+  --device cuda

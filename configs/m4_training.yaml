@@ -1,0 +1,58 @@
+# DoseSyn M4 — baseline training configuration (frozen data, no tuning on test)
+version: m4-v1
+inputs:
+  dataset_config: configs/dataset_primary_v1.yaml
+  m3_manifest: outputs/audit/m3_manifest.json
+  drug_graphs: data/processed/drug_graph_features.pt
+  drug_mapping: data/processed/drug_mapping.csv
+
+outputs:
+  runs_dir: outputs/runs/m4
+  metrics_dir: outputs/metrics/m4
+  figures_dir: outputs/figures/m4
+  tables_dir: outputs/tables/m4
+  report: m4_report.md
+
+training:
+  batch_size: 64
+  eval_batch_size: 128
+  num_workers: 0
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  huber_delta: 1.0
+  grad_clip: 5.0
+  epochs_dl: 80
+  epochs_tree: 1
+  patience: 15
+  min_epochs: 5
+  amp: false
+  num_threads: 4
+  seeds: [13, 42, 2026]
+
+model:
+  hidden_dim: 128
+  drug_embedding_dim: 32
+  mlp_hidden: 256
+  gine_layers: 3
+  dropout: 0.1
+  tree_max_iter: 400
+  tree_learning_rate: 0.05
+  tree_max_leaf_nodes: 31
+
+runs:
+  # M4-C: 3 seeds for S1/S2 and 5 folds for S3; B0/B1 are deterministic and run once per split.
+  scenarios:
+    s1_random_condition: {kind: seed, values: [13, 42, 2026]}
+    s2_unseen_pair: {kind: seed, values: [13, 42, 2026]}
+    s3_unseen_cell: {kind: fold, values: [0, 1, 2, 3, 4]}
+  models: [b0_mean, b1_tree, b2_mlp, b3_gine]
+
+report:
+  open_issues:
+    - "B3 GINE-Base 仅用全局均值池化 + 拼接，不含 FiLM、单药边界、平滑正则或协同重建（按任务书留给 M5）。"
+    - "S2 的 unseen pair 场景中，单药监督只作为已知先验披露，不能当作独立测试证据。"
+    - "S3 某些折的训练/测试细胞癌症类型不均衡（如 fold0 test 无前列腺），指标方差较大。"
+    - "本阶段未做超参搜索；S1/S2 上 B2 优于 B3、S3 上 B3 略优，差距不足以断言图结构无用，需在 M5 消融。"
+    - "预测允许为负、未裁剪到 [0, 2.5]；后续若需要物理约束应在模型侧处理，而不是后处理测试标签。"
+    - "未使用 AMP；V100 显存占用很低，训练瓶颈在 Python/小批量，而非显存。"
+    - "正式矩阵训练前有 2 个作业（20548/20549）因尝试安装 matplotlib 时 numpy 目录损坏而失败；修复后重跑，结果均来自成功作业。"
