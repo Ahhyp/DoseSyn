@@ -1,0 +1,96 @@
+# DoseSyn M2 configuration: drug structures, cell expression, Hallmark features.
+# Paths are resolved against the project root by dosesyn.utils.config.load_config.
+version: "m2-v1"
+
+paths:
+  raw_dir: data/raw
+  interim_dir: data/interim
+  processed_dir: data/processed
+  audit_dir: outputs/audit
+  logs_dir: outputs/logs
+  docs_dir: docs
+  external_dir: data/external
+  cache_dir: data/interim/features_cache
+
+files:
+  m1_combo_points: data/processed/oneil_combo_points.parquet
+  m1_combo_metadata: data/processed/oneil_combo_matrix_metadata.parquet
+  m1_mono_points: data/processed/oneil_monotherapy.parquet
+  m1_mono_metadata: data/processed/oneil_mono_curve_metadata.parquet
+  entity_registry: outputs/audit/oneil_entity_registry.json
+  confsyn_data: /home/kouzheng_2/AH_YeP/confsyn/Consyn/Data
+  confsyn_expression: /home/kouzheng_2/AH_YeP/confsyn/Consyn/Data/CCLE_expression.csv
+  confsyn_sample_info: /home/kouzheng_2/AH_YeP/confsyn/Consyn/Data/sample_info.csv
+  confsyn_drug_smiles: /home/kouzheng_2/AH_YeP/confsyn/Consyn/Data/OncologyScreen/drugsmiles.csv
+  confsyn_drug_combinations: /home/kouzheng_2/AH_YeP/confsyn/Consyn/Data/OncologyScreen/drug_combinations.csv
+  hallmark_gmt: /home/kouzheng_2/AH_YeP/confsyn/Consyn/Data/h.all.v2026.1.Hs.symbols.gmt
+
+pubchem:
+  base_url: "https://pubchem.ncbi.nlm.nih.gov/rest/pug"
+  timeout_seconds: 30
+  sleep_seconds: 0.34
+  cache_subdir: pubchem
+  user_agent: "DoseSyn/0.2 (academic research; O'Neil dataset feature construction)"
+
+drug_mapping:
+  # Human-curated synonyms accepted only when the InChIKey matches PubChem.
+  # ABT-888's PubChem page under that name is the dihydrochloride salt; the free
+  # base is listed as Veliparib, which is the structure used by ConfSyn.
+  name_queries:
+    ABT-888: veliparib
+  canonical_names:
+    5-FU: Fluorouracil
+    ABT-888: Veliparib
+    AZD1775: Adavosertib
+    BEZ-235: Dactolisib
+    L778123: L-778123
+    MK-4827: Niraparib
+    MK-8669: Ridaforolimus
+    MK-8776: Sch-900776
+    PD325901: PD-0325901
+    Mitomycine: Mitomycin C
+    Zolinza: Vorinostat
+    geldanamycin: Geldanamycin
+  # Metal-organic drugs whose RDKit graph cannot encode platinum coordination;
+  # the graph is still stored but flagged for review.
+  metal_complexes: [Carboplatin, Oxaliplatin]
+
+graph:
+  feature_version: "atom9-bond4-v1"
+  # clip values for integer categorical encodings
+  charge_clip: 3
+  ring_size_clip: 8
+  degree_clip: 6
+  total_hs_clip: 4
+
+cell_mapping:
+  # Documented abbreviations/aliases with a specific DepMap counterpart.
+  aliases:
+    LNCAP: {depmap_id: ACH-000977, status: VERIFIED_ALIAS, reason: "DepMap line is LNCAPCLONEFGC (LNCaP clone FGC)"}
+    MSTO: {depmap_id: ACH-000335, status: VERIFIED_ALIAS, reason: "O'Neil MSTO is the MSTO-211H mesothelioma line"}
+    OVCAR3: {depmap_id: ACH-000001, status: VERIFIED_ALIAS, reason: "DepMap stripped name is NIHOVCAR3; alias OVCAR3"}
+    COLO320DM: {depmap_id: ACH-000202, status: NEEDS_REVIEW, reason: "DepMap has COLO320, not the COLO320DM double-minute variant; variant status cannot be confirmed"}
+  unmapped:
+    EFM192B: "No EFM192B line in the DepMap release shipped with ConfSyn (only EFM192A/EFM19)."
+    UWB1289BRCA1: "Engineered BRCA1-reconstituted derivative of UWB1289; DepMap has no separate model and mapping to UWB1289 would misrepresent genotype."
+
+pathway:
+  alpha: 0.25
+  min_genes: 10
+  min_coverage: 0.5
+  gmt_source: "MSigDB h.all.v2026.1.Hs.symbols"
+
+outputs:
+  drug_mapping: data/processed/drug_mapping.csv
+  drug_graphs: data/processed/drug_graph_features.pt
+  drug_graph_metadata: data/processed/drug_graph_metadata.json
+  cell_mapping: data/processed/cell_mapping.csv
+  cell_expression: data/processed/cell_expression.parquet
+  cell_features: data/processed/cell_features.parquet
+  pathway_features: data/processed/pathway_features.parquet
+  pathway_metadata: data/processed/pathway_metadata.csv
+  feature_index: data/processed/matrix_feature_index.parquet
+  condition_feature_index: data/processed/condition_feature_index.parquet
+  mono_feature_index: data/processed/mono_feature_index.parquet
+  feature_coverage: outputs/audit/feature_coverage.json
+  feature_report: m2_report.md

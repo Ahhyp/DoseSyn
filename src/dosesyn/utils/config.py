@@ -17,6 +17,8 @@ _PATH_KEYS = (
     "logs_dir",
     "docs_dir",
     "work_dir",
+    "external_dir",
+    "cache_dir",
 )
 
 
@@ -59,6 +61,14 @@ def load_config(path: str | os.PathLike) -> Dict[str, Any]:
         files[f"{role}_path"] = str(
             fname if fname.is_absolute() else (Path(paths["raw_dir"]) / fname)
         )
+
+    # Feature outputs are declared as paths relative to the project root.
+    outputs = cfg.get("outputs")
+    if isinstance(outputs, dict):
+        for key, value in list(outputs.items()):
+            if isinstance(value, str):
+                p = Path(value)
+                outputs[key] = str(p if p.is_absolute() else (root / p))
     return cfg
 
 

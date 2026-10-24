@@ -1,6 +1,10 @@
 # DoseSyn — O'Neil 双药组合数据标准化工程
 
-本项目当前完成 **M0（原始数据审计）** 与 **M1（标准化预处理）**，尚未实现任何神经网络、特征选择或 M2 建模流程。
+本项目当前完成 **M0（原始数据审计）**、**M1（标准化预处理）** 与
+**M2（药物结构、细胞系、表达谱与 Hallmark 特征构建）**，尚未实现任何神经网络、
+特征选择或 M3 训练/划分流程。M2 详细说明见
+[`docs/decisions/m2_feature_spec.md`](docs/decisions/m2_feature_spec.md) 和
+[`m2_report.md`](m2_report.md)。
 
 ## 1. 结论速览
 
@@ -163,3 +167,40 @@ DoseSyn/
 | 自动化测试全绿 | PASS（53/53） |
 
 **结论：满足进入 M2 的条件。** 本轮未创建任何模型或训练脚本。
+
+## 10. M2 阶段（多模态特征构建）
+
+执行：
+
+```bash
+cd /home/kouzheng_2/AH_YeP/DoseSyn
+.venv/bin/python scripts/02_build_features.py      # 全流程 + pytest + m2_report.md
+```
+
+产物：
+
+- `data/processed/drug_mapping.csv`（38 药物，SMILES/CID/InChIKey/状态）
+- `data/processed/drug_graph_features.pt` + `drug_graph_metadata.json`（PyG 图缓存）
+- `data/processed/cell_mapping.csv`（39 细胞系 → DepMap）
+- `data/processed/cell_expression.parquet`（34 × 19,144 基因）
+- `data/processed/cell_features.parquet`、`pathway_features.parquet`、`pathway_metadata.csv`
+  （34 × 50 Hallmark）
+- `data/processed/oneil_combo_feature_index.parquet`、
+  `oneil_condition_feature_index.parquet`、`oneil_mono_feature_index.parquet`
+- `outputs/audit/feature_coverage.json`、`m2_manifest.json`
+- `m2_report.md`
+
+M2 关键结果：
+
+| 指标 | 结果 |
+| --- | --- |
+| 药物 SMILES / RDKit 图 | 38 / 38（36 OK，2 NEEDS_REVIEW） |
+| 细胞系 DepMap 映射 | 37 / 39（34 个特征齐全） |
+| Hallmark 有效通路 | 50 / 50，覆盖率 96.5%–100% |
+| 特征齐全组合矩阵 | 18,599 / 23,052（80.7%） |
+| 特征齐全独立条件 | 18,326 / 22,737 |
+| 特征齐全单药曲线 | 1,782 / 2,094（85.1%） |
+| 自动测试 | 81 passed（含 M0/M1 原有 53 项） |
+
+无法映射的实体、受影响矩阵数量及处理理由见 `m2_report.md` 第 6 节。
+
