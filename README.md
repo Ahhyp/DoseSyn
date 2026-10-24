@@ -397,3 +397,49 @@ S1 跨 3 个种子，S2 跨 3 个种子，S3 跨 5 折。
 真实验证指标、收敛曲线、参数量、失败实验与逐 run 产物见
 [`m5_report.md`](m5_report.md)。M5 只使用验证集，未读取测试集；
 技术验收标准是组件/协议/数值正确，而不是必须超过 M4 B3。
+## 14. M6-A 性能复现与结构诊断
+
+M6-A 只做诊断，不读测试集、不跑 11 split、不修改 M0–M3 冻结数据或 M4/M5 产物。
+
+### 14.1 目的
+
+解释 M5 C0 在 S1 seed42 验证集（matrix-macro RMSE 0.1820）为何明显差于 M4 B3（0.0801），并建立同口径、可复现的对照。
+
+### 14.2 关键结论
+
+| 对照 | matrix-macro RMSE | 说明 |
+| --- | ---: | --- |
+| T0 B3 checkpoint 复现 | 0.0801 | 与 M4 存储值一致 |
+| B3 架构 + M5 配方 | 0.0820 | 配方本身不导致退化 |
+| C0 架构 + M4 配方 | 0.1820 | 换配方也救不回 C0 |
+| T2 对称 + 标量剂量 | 0.1015 | 去掉 ordered 头只恢复一半 |
+| T3 对称 + Fourier 剂量 | 0.0820 | 恢复 B3 水平；S3 0.1695 |
+| T4 对称 + Fourier + FiLM | **0.0670** | S1 最佳；S3 0.1734 过拟合 |
+
+结论：M4→M5 的性能下降不是训练配方或早停口径造成的，而是 C0 的结构问题；Fourier 剂量表示是恢复性能的关键组件，FiLM 只在同分布 S1 上增益。M6-B 默认建议 T3 `b3sym_fourier`，T4 作为 S1 场景/集成候选。
+
+### 14.3 复现命令
+
+```bash
+# 6 个正式验证 run（S1 seed42：T2/T3/T4；S3 fold0：T2/T3/T4）
+.venv/bin/python scripts/08_run_m6a.py --all --recipe m6a --epochs 160 --device cuda
+
+# 从 best.pt 导出 16 行/矩阵的验证预测
+.venv/bin/python scripts/10_export_m6a_predictions.py --device cpu
+
+# 报告 / 检查项 / 产物清单
+.venv/bin/python scripts/09_write_m6a_report.py --write
+
+# 全量测试（172 项）
+.venv/bin/python -m pytest -q tests
+```
+
+报告：[`m6a_report.md`](m6a_report.md)，
+结构差异：[`m6a_architecture_diff.md`](m6a_architecture_diff.md)，
+模型选择：[`m6a_model_selection.md`](m6a_model_selection.md)。
+
+### 14.4 未解决问题
+
+- FiLM 在 S3 过拟合（最佳 epoch 20/50），跨细胞系泛化不稳定。
+- 未做超参数搜索；M6-A 的结论仅基于 S1 seed42 / S3 fold0 验证集。
+- 测试集未读取；M6-B 才允许在验证集选型后做正式测试评估。

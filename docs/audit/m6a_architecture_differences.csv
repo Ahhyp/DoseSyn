@@ -1,0 +1,6 @@
+name,params,description,dose,fusion
+T0 b3_exact,284545,M4 B3 exact,standardized scalar + zero flag,"ordered concat(cell, ha, hb, da, db)"
+T1 c0_control,559299,M5 C0 ordered control,"Linear(2,64) dose embedding","ordered concat(cell, ha, hb, ea64, eb64)"
+T2 b3sym_scalar,429954,"B3 trunk, symmetric, raw scalar",raw scalar + zero flag,sum/product/|diff| + raw dose
+T3 b3sym_fourier,492290,T2 + Fourier dose embedding,Fourier embedding 64d,sum/product/|diff| + raw dose
+T4 b3sym_film,535682,T3 + per-drug FiLM,"Fourier + FiLM(gamma,beta)",FiLM then sum/product/|diff|
