@@ -133,6 +133,9 @@ def aggregate(runs: Sequence[Dict[str, Any]]) -> List[Dict[str, Any]]:
                 row[f"{key}_std"] = math.sqrt(var)
                 row[f"{key}_min"] = min(vals)
                 row[f"{key}_max"] = max(vals)
+        params = [m.get("n_parameters") for m in members if m.get("n_parameters") is not None]
+        if params:
+            row["n_parameters"] = max(params)
         rows.append(row)
     return rows
 
