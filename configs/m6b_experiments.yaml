@@ -1,0 +1,134 @@
+version: m6b-v1
+description: >
+  M6-B formal DoseSyn variants on frozen M3 splits. T3 symmetric Fourier is the
+  core trunk; mono/boundary/smooth and regularized FiLM are controlled add-ons.
+  Test labels are only read by the formal stage, after validation selection.
+
+paths:
+  logs_dir: outputs/logs
+
+inputs:
+  dataset_config: configs/dataset_primary_v1.yaml
+  m4_config: configs/m4_training.yaml
+  m3_manifest: outputs/audit/m3_manifest.json
+  m4_runs: outputs/runs/m4
+  m6a_runs: outputs/runs/m6a
+
+outputs:
+  runs_dir: outputs/runs/m6b
+  metrics_dir: outputs/metrics/m6b
+  figures_dir: outputs/figures/m6b
+  audit_dir: outputs/audit
+  report: m6b_report.md
+
+training:
+  batch_size: 64
+  eval_batch_size: 128
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  huber_delta: 1.0
+  grad_clip: 5.0
+  epochs: 240
+  patience: 35
+  min_epochs: 10
+  num_threads: 4
+  seed: 42
+
+model:
+  hidden_dim: 128
+  dose_hidden: 64
+  fourier_bands: 4
+  decoder_hidden: 256
+  gine_layers: 3
+  dropout: 0.1
+  mono_hidden: 128
+  film_gamma_scale: 1.0
+  film_beta_scale: 1.0
+
+loss:
+  combo: pointwise_huber
+  mono_weight: 0.0
+  boundary_weight: 0.0
+  smooth_weight: 0.0
+  smooth_eps: 0.00000001
+
+variants:
+  b0_b3_exact:
+    kind: b3_exact
+    description: M4 B3 exact reference (no symmetric head, no aux losses)
+    uses_mono: false
+  b1_t3_fourier:
+    kind: b3sym_fourier
+    description: T3 symmetric Fourier trunk, combo-only
+    uses_mono: false
+  b2_t3_mono:
+    kind: b3sym_fourier
+    mono: true
+    mono_weight: 0.1
+    description: T3 + shared monotherapy head
+    uses_mono: true
+  b3_t3_mono_boundary:
+    kind: b3sym_fourier
+    mono: true
+    mono_weight: 0.1
+    boundary: true
+    boundary_weight: 0.02
+    description: T3 + mono + virtual zero-dose boundary
+    uses_mono: true
+  b4_t3_mono_boundary_smooth:
+    kind: b3sym_fourier
+    mono: true
+    mono_weight: 0.1
+    boundary: true
+    boundary_weight: 0.02
+    smooth: true
+    smooth_weight: 0.01
+    smooth_warmup_epochs: 10
+    description: T3 + mono + boundary + local surface smoothness
+    uses_mono: true
+  b5_t3_film_reg:
+    kind: b3sym_film
+    film_gamma_scale: 0.5
+    film_beta_scale: 0.5
+    dropout: 0.15
+    weight_decay: 0.0005
+    description: T3 + FiLM with halved modulation and stronger regularization
+    uses_mono: false
+  b6_t3_film_reg_pharm:
+    kind: b3sym_film
+    film_gamma_scale: 0.5
+    film_beta_scale: 0.5
+    dropout: 0.15
+    weight_decay: 0.0005
+    mono: true
+    mono_weight: 0.1
+    boundary: true
+    boundary_weight: 0.02
+    description: T3 + regularized FiLM + mono + boundary
+    uses_mono: true
+
+validation:
+  scenarios:
+    - name: s1_random_condition
+      seed: 42
+      fold: null
+      split_id: seed_42
+    - name: s3_unseen_cell
+      seed: null
+      fold: 0
+      split_id: fold_0
+  variants: [b1_t3_fourier, b2_t3_mono, b3_t3_mono_boundary, b4_t3_mono_boundary_smooth, b5_t3_film_reg]
+
+formal:
+  scenarios:
+    - name: s1_random_condition
+      seeds: [13, 42, 2026]
+    - name: s2_unseen_pair
+      seeds: [13, 42, 2026]
+    - name: s3_unseen_cell
+      folds: [0, 1, 2, 3, 4]
+  models: [b1_t3_fourier]
+  test_policy: single_read_after_checkpoint_selection
+  note: >
+    Formal models are frozen from validation selection. Test labels are read only
+    after training and checkpoint selection, and never fed back into selection.

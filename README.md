@@ -443,3 +443,76 @@ M6-A 只做诊断，不读测试集、不跑 11 split、不修改 M0–M3 冻结
 - FiLM 在 S3 过拟合（最佳 epoch 20/50），跨细胞系泛化不稳定。
 - 未做超参数搜索；M6-A 的结论仅基于 S1 seed42 / S3 fold0 验证集。
 - 测试集未读取；M6-B 才允许在验证集选型后做正式测试评估。
+
+## 15. M6-B 正式模型与多场景评估（M6-B）
+
+### 15.1 协议
+
+- 候选来自 M6-A：T1/T2/T3/T4 + 单药/边界/平滑组合，共 5 个变体（B1–B5）；
+  全部在 **验证集** S1 seed42 + S3 fold0 上比较，规则预先固定：
+  均值至少改善 0.001，且 S3 退化不超过 0.002，否则保留 B1。
+- 验证结果（matrix-macro RMSE，S1 / S3 / 均值）：
+
+| 变体 | S1 seed42 | S3 fold0 | 均值 | 参数量 |
+| --- | ---: | ---: | ---: | ---: |
+| B1 T3 Fourier | 0.0798 | 0.1662 | 0.1230 | 498,818 |
+| B2 T3 + Mono | 0.0818 | 0.1687 | 0.1252 | 548,227 |
+| B3 T3 + Mono + Boundary | 0.0809 | 0.1665 | 0.1237 | 548,227 |
+| B4 T3 + Mono + Boundary + Smooth | 0.1124 | 0.1693 | 0.1409 | 548,227 |
+| B5 T3 + Regularized FiLM | **0.0649** | 0.1677 | **0.1163** | 535,682 |
+
+- 选型只使用验证集，选中 **B5 `b5_t3_film_reg`**；随后才在 M3 冻结的
+  11 个 split 上一次性读取测试集，未用测试标签调参。
+
+### 15.2 正式测试结果
+
+11 个冻结 split：S1 3 seeds、S2 3 seeds、S3 5 folds；每场景取 run 均值的再平均。
+
+| 场景 | B1 T3 Fourier | B5 + Reg-FiLM | 相对变化 |
+| --- | ---: | ---: | ---: |
+| S1 随机条件 | 0.0793 | **0.0650** | −18.0% |
+| S2 未见药物对 | 0.1085 | **0.0768** | −29.2% |
+| S3 未见细胞系 | 0.1966 | **0.1937** | −1.5% |
+| 三场景等权平均 | 0.1281 | **0.1118** | −12.7% |
+
+S3 的 5 折测试 RMSE 分别为
+0.1981 / 0.1827 / 0.2135 / 0.1852 / 0.1893（B5），
+0.2087 / 0.1758 / 0.2187 / 0.1840 / 0.1958（B1）。
+逐折差异有正有负，S3 的 1.5% 均值优势落在折间波动范围内，**不能**声称
+FiLM 改善了跨细胞系泛化。
+
+### 15.3 解释
+
+- FiLM 的收益主要来自同分布/同药物对场景（S1、S2），符合“剂量条件调制”
+  的预期；在未见细胞系上收益很小。
+- 单药辅助、边界损失、平滑损失在本预算下没有带来验证集收益：
+  B2/B3 与 B1 基本持平，B4 明显变差（平滑项抑制了曲面细节）。
+- 对称性由结构保证：B1/B5 的 swap max abs error ≈ 3×10⁻⁷；
+  E_boundary 是模型自洽诊断，不是实测零剂量误差。
+- 所有测试预测未裁剪：负预测保留，`X/X0 > 1` 原值保留。
+
+### 15.4 复现命令
+
+```bash
+# 验证集选型（5 变体 × S1 seed42/S3 fold0）
+.venv/bin/python scripts/11_run_m6b.py --stage validation --epochs 240 --device cuda
+.venv/bin/python scripts/12_select_m6b.py
+
+# 正式 11 split（B1 参考 + 选中的 B5）
+.venv/bin/python scripts/11_run_m6b.py --stage formal --model b1_t3_fourier --epochs 200 --eval-test --device cuda
+.venv/bin/python scripts/11_run_m6b.py --stage formal --model b5_t3_film_reg --epochs 160 --eval-test --device cuda
+
+# 汇总 / 图表 / 报告 / 全量测试
+.venv/bin/python scripts/13_aggregate_m6b.py --write
+.venv/bin/python -m pytest -q tests
+```
+
+报告：[`m6b_report.md`](m6b_report.md)；选型：[`m6b_model_selection.md`](m6b_model_selection.md)；
+协议：[`docs/decisions/m6b_protocol.md`](docs/decisions/m6b_protocol.md)。
+
+### 15.5 未解决问题
+
+- FiLM 在 S3 没有稳定收益，5 折方向不一致；跨细胞系泛化仍是主要瓶颈。
+- B5 的 S1 正式 run 使用 160 epoch（B1 200），最佳 epoch 接近上限，仍有欠训练可能。
+- 未做超参数搜索；B5 的收益是单次选型结果，需在 M7 外部数据上复核。
+- 边界/平滑项的权重未系统调参；B4 的负结果说明当前平滑权重过强。

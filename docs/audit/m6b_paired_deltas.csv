@@ -1,0 +1,4 @@
+model,baseline,scenario,n_pairs,delta_mean,delta_std,wins,losses
+b5_t3_film_reg,b1_t3_fourier,s1_random_condition,3,-0.014279529165513135,0.0005195138604972937,3,0
+b5_t3_film_reg,b1_t3_fourier,s2_unseen_pair,3,-0.03177082569791089,0.003951124507918928,3,0
+b5_t3_film_reg,b1_t3_fourier,s3_unseen_cell,5,-0.002855337808199865,0.006901411867556567,3,2
