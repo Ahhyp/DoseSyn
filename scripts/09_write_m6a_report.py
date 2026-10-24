@@ -404,6 +404,12 @@ def main() -> int:
     L.append("- 报告：`.venv/bin/python scripts/09_write_m6a_report.py --write`")
     L.append("- 测试：`.venv/bin/python -m pytest -q tests`")
     L.append(f"- 曲线：{len(curves)} 个 SVG（outputs/figures/m6a/curves/）")
+    L.append("")
+    L.append("## 10. Git 记录")
+    L.append("")
+    L.append(f"- M6-A 代码提交：`{git_commit()}`（父提交 `9065a21`，M6-0）。")
+    L.append("- 本报告由 `scripts/09_write_m6a_report.py --write` 从 6 个 run 的 best.pt/val_metrics 与 4 个探针 JSON 生成，不重新训练。")
+    L.append("- 报告与 manifest 随代码提交之后的文档提交发布；测试记录 `outputs/audit/pytest_m6a.log`（172 passed）。")
     text = "\n".join(L)
     if args.write:
         (ROOT / "m6a_report.md").write_text(text, encoding="utf-8")

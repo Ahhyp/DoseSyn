@@ -1,7 +1,7 @@
 # DoseSyn M6-A 性能复现与结构诊断报告
 
-生成时间：2026-10-24T15:07:52+00:00  
-基线 commit：`9065a21e52edf363369f6b96220db4fc3ffa7203`
+生成时间：2026-10-24T15:13:03+00:00  
+基线 commit：`dbb63b41c09d8f76794a83ab5ca0a8a84c33d400`
 
 **结论：GO**
 
@@ -131,3 +131,9 @@ checkpoint：`outputs/runs/m4/b3_gine__s1_random_condition__seed_42/best.pt`（e
 - 报告：`.venv/bin/python scripts/09_write_m6a_report.py --write`
 - 测试：`.venv/bin/python -m pytest -q tests`
 - 曲线：6 个 SVG（outputs/figures/m6a/curves/）
+
+## 10. Git 记录
+
+- M6-A 代码提交：`dbb63b41c09d8f76794a83ab5ca0a8a84c33d400`（父提交 `9065a21`，M6-0）。
+- 本报告由 `scripts/09_write_m6a_report.py --write` 从 6 个 run 的 best.pt/val_metrics 与 4 个探针 JSON 生成，不重新训练。
+- 报告与 manifest 随代码提交之后的文档提交发布；测试记录 `outputs/audit/pytest_m6a.log`（172 passed）。
