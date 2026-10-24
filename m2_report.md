@@ -1,6 +1,6 @@
 # DoseSyn M2 报告：多模态特征构建与实体映射
 
-生成时间：2026-10-24T05:55:06+00:00　配置：`/home/kouzheng_2/AH_YeP/DoseSyn/configs/features_m2.yaml`
+生成时间：2026-10-24T05:56:47+00:00　配置：`/home/kouzheng_2/AH_YeP/DoseSyn/configs/features_m2.yaml`
 
 > 本阶段只构建特征，**未训练任何 DoseSyn 神经网络，也未创建 train/val/test 划分**。
 
@@ -104,7 +104,7 @@ MSigDB Hallmark 50 个集合；按精确大写 gene symbol 匹配，要求每集
 | 每个矩阵可追溯药物/细胞特征 | PASS |
 | 原始 M1 文件哈希保持不变 | PASS |
 
-自动测试：`81 passed in 11.38s`
+自动测试：`81 passed in 11.80s`
 
 ## 8. 复现命令
 

@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -243,6 +244,7 @@ def _stage_coverage(cfg, log, out, mapping, graph_meta, cell_map, scores, pmeta,
         mono_index,
     )
     write_json(coverage, out["feature_coverage"])
+    shutil.copyfile(out["feature_coverage"], Path(cfg["paths"]["processed_dir"]) / "feature_coverage.json")
     cancer.to_csv(
         Path(cfg["paths"]["audit_dir"]) / "feature_coverage_by_cancer.csv", index=False
     )
