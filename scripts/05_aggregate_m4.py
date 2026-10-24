@@ -321,6 +321,7 @@ def write_report(
     lines.append("- S1/S2 用 3 个种子，S3 用 5 折；同一 condition/batch 的矩阵不跨集合。\n")
     lines.append("- 特征标准化只使用训练折拟合的 scaler（M3 产物），测试集不参与任何统计。\n")
     lines.append("- B0/B1 不训练梯度；B1 仅在训练折上拟合。\n")
+    lines.append("- 单药监督范围：M4 的四个基线均不使用单药标签，单药曲线实际使用 0 条；S3 的 strict_cell_isolation 分配保持封存。\n")
     model_cfg = cfg.get("model", {})
     lines.append("\n### 模型配置\n")
     lines.append(
@@ -471,6 +472,7 @@ def main() -> int:
         "各运行测试点 X/X0=0 合计": sum(int(r.get("test_y_eq0") or 0) for r in ok_runs),
         "负预测点数": sum(int(r.get("test_n_pred_negative") or 0) for r in ok_runs),
         "早停依据": "仅验证集 matrix_macro_RMSE",
+        "单药监督使用": "0 条单药曲线（四个基线均不使用单药标签）",
         "随机种子": str(cfg["training"].get("seeds")),
         "Git commit": os.popen("cd /home/kouzheng_2/AH_YeP/DoseSyn && git rev-parse HEAD").read().strip(),
     }
