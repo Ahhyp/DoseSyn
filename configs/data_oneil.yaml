@@ -1,0 +1,90 @@
+# DoseSyn — O'Neil data configuration (M0/M1).
+# Paths are relative to the project root unless absolute.
+# Raw files are read-only; any format-converted working copy goes to work_dir.
+
+project:
+  name: DoseSyn
+  study: ONEIL
+  seed: 42
+
+paths:
+  raw_dir: data/raw/ONEIL
+  interim_dir: data/interim
+  processed_dir: data/processed
+  splits_dir: data/splits
+  audit_dir: outputs/audit
+  logs_dir: outputs/logs
+  docs_dir: docs
+  work_dir: data/interim/format_work
+
+# Concentration units of the published tables and the internal target unit.
+# The O'Neil supplementary files state "micro molar concentration".
+units:
+  raw_concentration: uM
+  target_concentration: uM
+
+files:
+  mono: 15357163mct150843-sup-156849_1_supp_0_w2lh45.xlsx
+  legend: 15357163mct150843-sup-156849_1_supp_1_g2lr29.xlsx
+  combo: 15357163mct150843-sup-156849_1_supp_1_w2lrww.xls
+
+# Recorded provenance. `00_audit_raw.py` verifies these hashes and FAILS the
+# audit if they change; it never rewrites the raw files.
+expected_sha256:
+  mono: 4a0622c074b9c505661fb6e5edf8dbbb018f1be33b2bec8058fb7d933ed66dec
+  legend: 4a85ebffc9a3c94b7cb3c0f26a8d90accb363282913bfbbf708e56cb6c6b3d6b
+  combo: a0e2e002dc06c34e8aedf3206877a93bab7e45190ad8bb8e70ed79ff24c14818
+
+# Counts that the M1 audit must reconcile against the raw files.
+expected_counts:
+  mono_rows: 16752
+  combo_rows: 368832
+  combo_matrices: 23052
+  mono_curves: 2094
+  n_cells: 39
+  n_drugs: 38
+  n_unordered_pairs: 583
+
+# Raw column names exactly as they appear in the O'Neil workbooks.
+raw_columns:
+  mono:
+    batch: BatchID
+    cell: cell_line
+    drug: drug_name
+    dose_um: "Drug_concentration (µM)"
+    viability: [viability1, viability2, viability3, viability4, viability5, viability6]
+    mu: "mu/muMax"
+    response: "X/X0"
+    sheet: "single agent response"
+  combo:
+    batch: BatchID
+    cell: cell_line
+    drug_a: drugA_name
+    dose_a_um: "drugA Conc (µM)"
+    drug_b: drugB_name
+    dose_b_um: "drugB Conc (µM)"
+    combination: combination_name
+    viability: [viability1, viability2, viability3, viability4]
+    mu: "mu/muMax"
+    response: "X/X0"
+    sheet: "combination response"
+  legend:
+    sheet: legend
+
+# QC thresholds. Every threshold is written into the QC report with a rationale.
+qc:
+  nominal_combo_replicates: 4
+  nominal_mono_replicates: 6
+  # X/X0 is intentionally NOT clipped; values above this are only flagged.
+  x_over_x0_upper_outlier: 2.0
+  x_over_x0_lower_outlier: 0.0
+  # max - min across technical replicates above this is flagged as unstable.
+  replicate_spread_outlier: 1.0
+  # tolerance when checking X/X0 = exp(ln(4)*(mu/muMax - 1)).
+  response_formula_tolerance: 1.0e-05
+  # expected nominal number of doses per combo matrix / mono curve.
+  combo_doses_per_axis: 4
+  mono_doses_per_curve: 8
+
+ids:
+  hash_len: 12

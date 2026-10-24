@@ -1,0 +1,18 @@
+# DoseSyn — O'Neil raw data audit & normalization (M0/M1)
+#
+# Pinned to the runtime that was actually verified on this host
+# (conda env `confsyn` + project venv `.venv`):
+#   Python 3.10.21
+#   numpy 1.21.6, pandas 1.3.5, openpyxl 3.1.2, pyarrow 10.0.1
+#   PyYAML 6.0.3, scipy 1.9.3, pytest 7.4.4
+#
+# Install (from the project root):
+#   python3.10 -m venv --system-site-packages .venv
+#   .venv/bin/python -m pip install -r requirements.txt
+numpy==1.21.6
+pandas==1.3.5
+openpyxl==3.1.2
+pyarrow==10.0.1
+PyYAML==6.0.3
+scipy==1.9.3
+pytest==7.4.4
