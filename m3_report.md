@@ -1,6 +1,6 @@
 # DoseSyn M3 数据集划分报告
 
-生成时间：2026-10-24T06:41:48+00:00　|　数据集版本：`oneil-primary-v1`　|　Git：`cdd9c8b54d59`
+生成时间：2026-10-24T06:42:14+00:00　|　数据集版本：`oneil-primary-v1`　|　Git：`ccc75669fc6f`
 
 ## 1. 结论
 
@@ -189,8 +189,8 @@ S3 每折的 `mono_assignments.parquet` 以 `label_access`（`train` / `held_out
 ## 9. Git 与可复现性
 
 - 基线：`cdd9c8b`
-- 当前 commit：`cdd9c8b54d59de60e6e3d9dac00d077e3b850d84`
-- 工作区：dirty
+- 当前 commit：`ccc75669fc6f1f85ae40330da914d07eec26d51b`
+- 工作区：clean
 - 生成命令：
 
 ```bash
