@@ -1,5 +1,5 @@
 # DoseSyn M5 完整模型开发报告
-生成时间：2026-10-24T09:37:41+00:00  
+生成时间：2026-10-24T09:47:38+00:00  
 配置：`configs/m5_dosesyn.yaml`（m5-v1）  
 ## 1. 结论
 - 完成 DoseSyn-Core（对称融合 + 连续剂量 + FiLM + 共享单药头 + 边界/平滑损失），共 **12** 个验证运行；本阶段只做 S1 seed42 / S3 fold0 的**验证集**实验，未触碰测试集。
@@ -125,3 +125,14 @@
 - M5 的验证 macro RMSE 与 M4 的测试 macro RMSE 集合角色不同，不可直接比较优劣。
 - 消融入口已就绪：`symmetric_pair`、`dose_encoding`、`film`、`mono_weight`、`boundary_weight`、`smooth_weight` 均为配置开关。
 - M6 应扩到 S1/S2 三种子、S3 五折，并固定测试集后再报告 test；M5 未做。
+
+## 10. Git 记录
+- 仓库：https://github.com/Ahhyp/DoseSyn（main 分支）。
+- M4 基线：`632ba0ce0105b4e1ba560c2f4bbfe83c122d57c3`。
+- M4 报告表述更正：`e03b92e`、`6d17122`（仅改文字，未改实验数据）。
+- M5 代码与报告提交：
+  - `94fedc0 M5: add DoseSyn core with symmetric fusion, FiLM, mono head and boundary/smooth losses`
+  - `6d17122 M4: correct S2 model comparison statement`
+  - `e03b92e M4: fix S2 model-comparison wording in report`
+  - `632ba0c M4: include parameter counts in aggregate report`
+- 复现命令见第 8 节；输入/报告哈希见 `outputs/audit/m5_manifest.json`。

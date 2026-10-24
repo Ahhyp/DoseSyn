@@ -355,6 +355,14 @@ def write_report(
         lines.append(f"- {issue}\n")
     lines.append("- 消融入口已就绪：`symmetric_pair`、`dose_encoding`、`film`、`mono_weight`、`boundary_weight`、`smooth_weight` 均为配置开关。\n")
     lines.append("- M6 应扩到 S1/S2 三种子、S3 五折，并固定测试集后再报告 test；M5 未做。\n")
+    lines.append("\n## 10. Git 记录\n")
+    lines.append("- 仓库：https://github.com/Ahhyp/DoseSyn（main 分支）。\n")
+    lines.append("- M4 基线：`632ba0ce0105b4e1ba560c2f4bbfe83c122d57c3`。\n")
+    lines.append("- M4 报告表述更正：`e03b92e`、`6d17122`（仅改文字，未改实验数据）。\n")
+    lines.append("- M5 代码与报告提交：\n")
+    for line in os.popen("cd " + str(ROOT) + " && git log --oneline -4").read().splitlines():
+        lines.append(f"  - `{line}`\n")
+    lines.append("- 复现命令见第 8 节；输入/报告哈希见 `outputs/audit/m5_manifest.json`。\n")
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text("".join(lines), encoding="utf-8")
 
