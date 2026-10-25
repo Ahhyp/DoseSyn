@@ -637,3 +637,48 @@ M7-C 不重新训练 B5，只整合 M4、M6-B、M7-A、M7-B 的正式结果，�
 ```
 
 **M7-C 结论：可用。** 第四章主文强调 B5 在 S1/S2 与中心插值上的优势；S3、25% 稀疏和边界外推按真实结果报告，不做过度外推。
+
+## 20. M8-A：ConfSyn–DoseSyn 关联与独立性审计
+
+**结论：CONDITIONAL PASS。** 两个模型存在可匹配的实体和条件，但 ConfSyn 的逐样本
+split 未持久化、缺少 OncologyScreen checkpoint，且三套标签语义不可互换，因此
+不能给出 FULL PASS，也不能在 M8-A 直接做联合排序。
+
+| 项目 | 结果 |
+| --- | ---: |
+| 药物映射 | 22 / 38（InChIKey 精确；16 个 ConfSyn 无结构） |
+| 细胞系映射 | 31 / 39（29 精确 + 2 审核别名；8 个不在 ConfSyn 语料） |
+| 可匹配条件 | 4,274 / 18,326（23.3%） |
+| DrugCombDB 条件 | 2,940 |
+| OncologyScreen 条件 | 4,176 |
+| 两库同条件 | 2,842（标签完全相等：0） |
+| A 级测试矩阵（S1/S2/S3） | 853 / 930 / 2,010 |
+| A 级条件（去重） | 2,010 |
+
+- ConfSyn 标签是 `P(synergy >= 0)`（DrugCombDB 定义）；DoseSyn 标签是 `X/X0`。
+  OS 与 DB 同条件标签相关系数仅 Pearson 0.42 / Spearman 0.36，OS vs X/X0
+  为 -0.06 / 0.07，不能把 `X/X0` 当作协同分数。
+- ConfSyn 代码 `data_split` 未固定随机种子且不保存索引；现有 5 个 fold checkpoint
+  只对应 DrugCombDB 交叉验证，无法复现逐样本训练/测试归属。没有 OncologyScreen
+  checkpoint。因此“同条件”只能视为 C 级，不可当作独立测试。
+- A 级 = 条件不在 DrugCombDB 且位于 DoseSyn 测试集；B 级 = 不在 DrugCombDB 且位于
+  DoseSyn train/val；C 级 = DrugCombDB 已见条件；D 级 = 实体或条件不支持。
+- M8-B 若做联合推理，必须以 A 级为独立评估集，并先验证 ConfSyn 在 22 药/31 细胞
+  上的推理输出；B/C/D 不得混入独立性能结论。
+
+### 20.1 主要文件
+
+| 内容 | 路径 |
+| --- | --- |
+| 审计报告 | [`m8a_report.md`](m8a_report.md) |
+| 映射/证据/覆盖表 | [`outputs/metrics/m8a/`](outputs/metrics/m8a) |
+| 桥接可行性 JSON | [`outputs/metrics/m8a/bridge_feasibility.json`](outputs/metrics/m8a/bridge_feasibility.json) |
+| 审计副本 | [`docs/audit/m8a/`](docs/audit/m8a) |
+| 配置清单 | [`configs/m8/m8a_manifest.yaml`](configs/m8/m8a_manifest.yaml) |
+
+### 20.2 复现命令
+
+```bash
+.venv/bin/python scripts/26_audit_m8a.py
+.venv/bin/python -m pytest -q tests
+```

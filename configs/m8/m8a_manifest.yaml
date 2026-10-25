@@ -1,0 +1,20 @@
+version: m8a-v1
+confsyn:
+  root: /home/kouzheng_2/AH_YeP/confsyn/Consyn
+  data_dir: Data
+paths:
+  logs_dir: outputs/logs
+  metrics_dir: outputs/metrics/m8a
+  audit_dir: outputs/audit/m8a
+  figures_dir: outputs/figures/m8a
+  docs_audit: docs/audit/m8a
+  report: m8a_report.md
+inputs:
+  drug_mapping: data/processed/drug_mapping.csv
+  cell_mapping: data/processed/cell_mapping.csv
+  primary_matrix_index: data/processed/oneil_primary_v1_matrix_index.parquet
+  primary_mono_index: data/processed/oneil_primary_v1_mono_index.parquet
+  combo_points: data/processed/oneil_combo_points.parquet
+  splits_dir: data/splits
+  m6b_config: configs/m6b_experiments.yaml
+  m3_manifest: outputs/metrics/m3/m3_manifest.json

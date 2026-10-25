@@ -1,0 +1,15 @@
+metric,value
+n_matched_conditions,4274
+n_oncology_screen_conditions,4176
+n_drugcombdb_conditions,2940
+n_in_both,2842
+exact_label_equal_in_both,0
+pearson_os_vs_db,0.4242529340509185
+spearman_os_vs_db,0.3606865332216563
+n_os_db_pairs,2842
+mean_os_label,1.5497128953377903
+mean_db_label,1.5445632477128783
+pearson_os_synergy_vs_dosesyn_x_x0,-0.06492719977032531
+spearman_os_synergy_vs_dosesyn_x_x0,0.06935712302286821
+n_os_x_pairs,4176
+interpretation,OS and DrugCombDB synergy labels are different derived quantities and are not numerically equal for the same condition; neither is the O'Neil X/X0 relative viability. Correlations are descriptive only and do not establish a calibration.

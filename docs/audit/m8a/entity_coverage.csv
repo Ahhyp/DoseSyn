@@ -1,0 +1,4 @@
+entity,total,exact,reviewed_alias,unmatched,coverage_pct,note
+drug,38,22,0,16,57.89,"DoseSyn 38 drugs; ConfSyn/DrugCombDB has 22 exact structures, 16 absent"
+cell_line,39,29,2,8,79.49,"DoseSyn 39 cells; 31 match ConfSyn names (29 exact, 2 reviewed aliases)"
+condition,18326,4274,0,14052,23.32,"canonical (cell, unordered drug pair) condition; matched to ConfSyn DrugCombDB/OncologyScreen"
