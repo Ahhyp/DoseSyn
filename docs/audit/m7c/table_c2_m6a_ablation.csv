@@ -1,0 +1,6 @@
+model,label,S1,S3
+t0_b3_exact,T0 M4 B3 exact checkpoint,0.08005502275233599,
+t1_c0_m4,T1 C0 ordered control + M4 recipe,0.181985,
+b3sym_scalar,T2 B3-trunk + symmetric + scalar,0.1014674789077451,0.1752467215830984
+b3sym_fourier,T3 B3-trunk + symmetric + Fourier,0.0820163500360776,0.1695222827182699
+b3sym_film,T4 B3-trunk + symmetric + Fourier + FiLM,0.0669658768005365,0.1733644513180991

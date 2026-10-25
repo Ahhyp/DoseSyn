@@ -1,0 +1,46 @@
+{
+  "source": "outputs/runs/m6b/m6b__b5_t3_film_reg__s1_random_condition__seed_42/predictions_test.parquet",
+  "selection_rule": "test matrices with y_true std>=0.05 and range>=0.2; nearest to p10/p50/p90 of per-matrix RMSE",
+  "n_eligible": 2696,
+  "n_test": 2786,
+  "cases": [
+    {
+      "figure": "fig4_9_surface_good",
+      "quantile": 10,
+      "matrix_id": "MTX_f8291e7e2631",
+      "cell_line": "UACC62",
+      "drug_a_name": "Erlotinib",
+      "drug_b_name": "Dinaciclib",
+      "rmse": 0.03274425426010424,
+      "std": 0.33524514286765705,
+      "range": 0.9368900135159492
+    },
+    {
+      "figure": "fig4_10_surface_median",
+      "quantile": 50,
+      "matrix_id": "MTX_e83a4816a383",
+      "cell_line": "OV90",
+      "drug_a_name": "Dexamethasone",
+      "drug_b_name": "AZD1775",
+      "rmse": 0.05326408930380298,
+      "std": 0.16875770703097462,
+      "range": 0.4897800087928772
+    },
+    {
+      "figure": "fig4_11_surface_hard",
+      "quantile": 90,
+      "matrix_id": "MTX_2ef148b3051b",
+      "cell_line": "LNCAP",
+      "drug_a_name": "Dexamethasone",
+      "drug_b_name": "MK-8776",
+      "rmse": 0.1056596430558165,
+      "std": 0.166688558864968,
+      "range": 0.6076800227165222
+    }
+  ],
+  "interpolation_case": {
+    "matrix_id": "MTX_5c1fa58f4a20",
+    "cell_line": "SW620",
+    "rmse": 0.055952463141935346
+  }
+}

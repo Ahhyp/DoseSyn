@@ -1,0 +1,107 @@
+{
+  "n_tables": 10,
+  "n_figures": 13,
+  "center": {
+    "M6-B B5 (DoseSyn)": {
+      "S1": "0.0701528518305228",
+      "S2": "0.0811279347592535",
+      "S3": "0.2050503637406492",
+      "mean": "0.11877705011014184"
+    },
+    "M4 B3 GINE": {
+      "S1": "0.0765017418885572",
+      "S2": "0.0897885842394387",
+      "S3": "0.2032050654414197",
+      "mean": "0.12316513052313853"
+    },
+    "M6-B B1 (T3)": {
+      "S1": "0.0987915143193288",
+      "S2": "0.1184880932641663",
+      "S3": "0.2125609108891769",
+      "mean": "0.143280172824224"
+    },
+    "M4 B2 MLP-Dose": {
+      "S1": "0.073937843966384",
+      "S2": "0.0920677078054377",
+      "S3": "0.2192289356421253",
+      "mean": "0.128411495804649"
+    }
+  },
+  "symmetry": [
+    {
+      "scenario": "S1",
+      "n_matrices": "2786",
+      "max_abs_error": "0.0",
+      "mean_abs_error": "0.0",
+      "p99_matrix_max": "0.0",
+      "median_matrix_max": "0.0",
+      "n_matrices_gt_1e-5": "0"
+    },
+    {
+      "scenario": "S2",
+      "n_matrices": "2879",
+      "max_abs_error": "0.0",
+      "mean_abs_error": "0.0",
+      "p99_matrix_max": "0.0",
+      "median_matrix_max": "0.0",
+      "n_matrices_gt_1e-5": "0"
+    },
+    {
+      "scenario": "S3",
+      "n_matrices": "3836",
+      "max_abs_error": "0.0",
+      "mean_abs_error": "0.0",
+      "p99_matrix_max": "0.0",
+      "median_matrix_max": "0.0",
+      "n_matrices_gt_1e-5": "0"
+    }
+  ],
+  "headline": {
+    "B5_S1": 0.064991868274251,
+    "B5_S2": 0.0767734033898119,
+    "B5_S3": 0.1937350280841562,
+    "B5_mean": 0.1118334332494064,
+    "B5_vs_B3_mean_pct": 8.961479360397107,
+    "B5_vs_B2_mean_pct": 12.146420690139493,
+    "B5_vs_T3_mean_pct": 12.722406423417528,
+    "center_B5_vs_B3_S1_pct": 8.29901372348233,
+    "center_B5_vs_B3_S2_pct": 9.645602003357004
+  },
+  "surface_cases": [
+    {
+      "figure": "fig4_9_surface_good",
+      "quantile": "10",
+      "matrix_id": "MTX_f8291e7e2631",
+      "cell_line": "UACC62",
+      "drug_a_name": "Erlotinib",
+      "drug_b_name": "Dinaciclib",
+      "rmse": "0.03274425426010424",
+      "std": "0.33524514286765705",
+      "range": "0.9368900135159492"
+    },
+    {
+      "figure": "fig4_10_surface_median",
+      "quantile": "50",
+      "matrix_id": "MTX_e83a4816a383",
+      "cell_line": "OV90",
+      "drug_a_name": "Dexamethasone",
+      "drug_b_name": "AZD1775",
+      "rmse": "0.05326408930380298",
+      "std": "0.16875770703097462",
+      "range": "0.4897800087928772"
+    },
+    {
+      "figure": "fig4_11_surface_hard",
+      "quantile": "90",
+      "matrix_id": "MTX_2ef148b3051b",
+      "cell_line": "LNCAP",
+      "drug_a_name": "Dexamethasone",
+      "drug_b_name": "MK-8776",
+      "rmse": "0.1056596430558165",
+      "std": "0.166688558864968",
+      "range": "0.6076800227165222"
+    }
+  ],
+  "chapter": "docs/paper/chapter4_experiments.md",
+  "chapter_sha256": "a8855d4af138d8958736d16f11ded47e46ca8b3bf5a5718d71c4dbb0ee69c686"
+}

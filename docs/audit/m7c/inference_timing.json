@@ -1,0 +1,26 @@
+[
+  {
+    "model": "B5 DoseSyn",
+    "n_matrices": 2786,
+    "ms_per_matrix_median": 0.18376094267061094,
+    "ms_per_matrix_runs": [
+      0.18376094267061094,
+      0.18501594563717474,
+      0.18364508560747014
+    ],
+    "threads": 4,
+    "device": "cpu"
+  },
+  {
+    "model": "B3 GINE",
+    "n_matrices": 2786,
+    "ms_per_matrix_median": 0.123137450387216,
+    "ms_per_matrix_runs": [
+      0.12350517070376864,
+      0.123137450387216,
+      0.12293108187385882
+    ],
+    "threads": 4,
+    "device": "cpu"
+  }
+]

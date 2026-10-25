@@ -594,3 +594,46 @@ B5 中心留出测试（held-out matrix-macro RMSE）：S1 0.0702、S2 0.0811、
 ```
 
 **M7-B 结论：以 `m7b_report.md` 的自动判定为准。** 不因测试结果修改 B5 结构或掩码；所有负结果保留。
+
+## 19. M7-C：硕士论文第四章实验材料
+
+M7-C 不重新训练 B5，只整合 M4、M6-B、M7-A、M7-B 的正式结果，生成可直接用于毕业论文第四章的表格、图、正文与复现脚本。所有百分比由
+[`scripts/21_build_m7c_tables.py`](scripts/21_build_m7c_tables.py) 重新计算，避免正文与表格不一致。
+
+### 19.1 核心结论
+
+- DoseSyn B5 三场景等权平均 matrix-macro RMSE 为 **0.1118**，相对 GINE 降低 **9.0%**；S1/S2 分别降低 **18.2%/14.4%**。
+- 在 comboKR 2.0 可比的 S1/S2 公共测试矩阵上，B5 为 **0.0646/0.0756**，comboKR 为 **0.1341/0.1362**，B5 误差约为其 **48%/56%**。
+- 正则化 FiLM 是主要增益来源：M6-B B1（T3）0.0793/0.1085/0.1966 → B5 **0.0650/0.0768/0.1937**；S1/S2 提升 **18.1%/29.3%**。
+- 中心 2×2 剂量留出：B5 **0.0702/0.0811/0.2051**，S1/S2 相对 GINE 降低 **8.3%/9.7%**；S3 与 GINE 基本持平（B5 略差 0.9%）。
+- 50% 交错观测下 B5 与 GINE 接近（S1 0.0710 vs 0.0784，S2 0.0838 vs 0.0894，S3 0.2091 vs 0.2095）。
+- 交换对称性：B5 在 S1/S2/S3 的 2,786/2,879/3,836 个测试矩阵上，交换药物顺序后的最大绝对误差为 **0**（浮点精确一致）。
+- B5 参数量 535,682，仅比 T3 多 7.4%；CPU 推理 0.18 ms/矩阵（GINE 0.12 ms/矩阵）。
+
+25% 极端稀疏与高剂量边界外推不作为 B5 的优势结论：四角留出时 GINE 更好，高剂量边界 GINE 为 0.121/0.123/0.207，B5 为 0.234/0.234/0.264。正文如实保留这些限制。
+
+### 19.2 交付物
+
+| 内容 | 路径 |
+| --- | --- |
+| 第四章正文草稿（4.1–4.4） | [`docs/paper/chapter4_experiments.md`](docs/paper/chapter4_experiments.md) |
+| 论文表格 | [`docs/paper/tables/`](docs/paper/tables) |
+| 论文图（SVG/PDF/PNG） | [`docs/paper/figures/m7c/`](docs/paper/figures/m7c) |
+| 全部原始图表 | [`outputs/figures/m7c/`](outputs/figures/m7c) |
+| 汇总表与 JSON | [`outputs/metrics/m7c/`](outputs/metrics/m7c) |
+| 审计副本 | [`docs/audit/m7c/`](docs/audit/m7c) |
+| 阶段报告 | [`m7c_report.md`](m7c_report.md) |
+
+### 19.3 复现命令
+
+```bash
+.venv/bin/python scripts/21_build_m7c_tables.py
+.venv/bin/python scripts/22_m7c_symmetry.py
+.venv/bin/python scripts/22b_measure_inference.py
+/tmp/m7venv/bin/python scripts/23_make_m7c_figures.py
+/tmp/m7venv/bin/python scripts/24_plot_m7c_surfaces.py
+/tmp/m7venv/bin/python scripts/25_write_chapter4.py
+.venv/bin/python -m pytest -q tests
+```
+
+**M7-C 结论：可用。** 第四章主文强调 B5 在 S1/S2 与中心插值上的优势；S3、25% 稀疏和边界外推按真实结果报告，不做过度外推。
