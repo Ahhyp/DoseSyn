@@ -1,0 +1,85 @@
+version: m7a-v1
+project: DoseSyn
+stage: M7-A external baseline reproduction
+frozen_dataset: configs/dataset_primary_v1.yaml
+frozen_manifest: outputs/audit/m3_manifest.json
+label: x_x0_raw
+primary_metric: matrix_macro_rmse
+
+paths:
+  external_src: data/external/m7a_src
+  combokr_data: /tmp/combokr_data/data
+  deepsynba_data: /tmp/deepsynba_data/data
+  runs_dir: outputs/runs/m7a
+  metrics_dir: outputs/metrics/m7a
+  figures_dir: outputs/figures/m7a
+  audit_dir: docs/audit/m7a
+  logs_dir: outputs/logs
+
+evaluation:
+  scenarios: [s1_random_condition, s2_unseen_pair, s3_unseen_cell]
+  seeds: [13, 42, 2026]
+  s3_folds: [0, 1, 2, 3, 4]
+  pred_dtype: float32
+  clip_predictions: false
+  test_used_for_selection: false
+
+models:
+  m4_b0_mean: {source: archived_m4, status: reference}
+  m4_b1_tree: {source: archived_m4, status: reference}
+  m4_b2_mlp: {source: archived_m4, status: reference}
+  m4_b3_gine: {source: archived_m4, status: reference}
+  m6b_b1_t3: {source: archived_m6b, status: reference}
+  m6b_b5_film: {source: archived_m6b, status: reference}
+  combokr:
+    source: reimplemented_official_code
+    code_version: comboKR2.0/main (MIT)
+    upstream: https://github.com/aalto-ics-kepaco/comboKR2.0
+    python_env: /tmp/m7venv (Python 3.11, numpy 1.26, scikit-learn 1.5)
+    status: main_ranking
+    scenarios: [s1_random_condition, s2_unseen_pair]
+    s3_status: blocked_protocol
+    s3_reason: >-
+      comboKR 的 Hill 参数由原始 O'Neil 数据拟合，其中包含 S3 测试细胞系的
+      单药曲线；使用这些 Hill 参数即使用了测试细胞系的真实单药标签，
+      违反 S3 strict_cell_isolation。只为 S1/S2 纳入主排名，S3 记为不适用。
+    inputs: [cell line, drug pair identity, 4x4 dose grid]
+    confidence_features: official BRAID 9-parameter fit per training surface
+    label_transformation: BRAID 9-parameter fit (official), refit per training matrix
+    dose_unit: molar (official data); project µM / 1e6
+    hyperparameters: official default (K=... , lambda=...)
+    epochs: not_applicable
+  deepsynba_adapted:
+    source: reimplementation_adapted
+    code_version: DeepSynBa/main (CC BY-NC-SA)
+    upstream: https://github.com/hikuru/DeepSynBa
+    status: supplementary
+    scenarios: [s1_random_condition, s2_unseen_pair, s3_unseen_cell]
+    protocol_difference:
+      - 官方药物输入为 MoLFormer 768 维嵌入；本项目用 RDKit Morgan 2048 指纹投影到 768。
+      - 官方为 NCI-60 细胞系与 976 landmark 基因；本项目用 CCLE 39 系（950/976 基因可匹配，缺失补 0）。
+      - 官方目标为 SynBa 参数/协同标签；本项目直接以 16 点 X/X0 曲面为监督。
+      - 因此结果只能作为 adapted baseline，不能声称官方 DeepSynBa 复现。
+    hyperparameters:
+      epochs: 60
+      batch_size: 512
+      lr: 0.001
+      weight_decay: 0.0001
+      patience: 10
+      embedding_dim: 256
+      hidden_dim: 256
+      dropout: 0.2
+      fingerprint_bits: 2048
+      gene_dim: 976
+    feature_adapters:
+      drug: morgan2048_to_768
+      cell: ccle_950_of_976_zero_fill
+
+report:
+  main_table_models: [m4_b0_mean, m4_b1_tree, m4_b2_mlp, m4_b3_gine, m6b_b1_t3, m6b_b5_film, combokr]
+  supplementary_models: [deepsynba_adapted]
+  open_issues:
+    - comboKR S3 不能公平运行（Hill 参数含测试细胞单药信息）。
+    - DeepSynBa 为特征/目标适配版本，不是官方复现。
+    - DD-PRiSM 未找到官方可运行代码，列为不可复现。
+    - 外部模型训练预算与 DoseSyn 不完全相同，已记录。

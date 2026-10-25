@@ -1,0 +1,14 @@
+#!/bin/bash
+#PBS -N m7a_dsb_c
+#PBS -l nodes=node1:ppn=4
+#PBS -q gentai
+#PBS -l walltime=05:00:00
+exec > /home/kouzheng_2/AH_YeP/DoseSyn/outputs/logs/pbs_m7a_dsb_c.log 2>&1
+
+cd /home/kouzheng_2/AH_YeP/DoseSyn
+export CUDA_VISIBLE_DEVICES=1
+for fold in 0 1 2 3 4; do
+  .venv/bin/python src/dosesyn/baselines/external/deepsynba_adapter.py \
+    --scenario s3_unseen_cell --fold "$fold" --epochs 60 --patience 10 \
+    --batch-size 512 --device cuda --out "outputs/runs/m7a/deepsynba/s3_unseen_cell/fold_${fold}/predictions.parquet"
+done

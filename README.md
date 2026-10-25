@@ -516,3 +516,49 @@ FiLM 改善了跨细胞系泛化。
 - B5 的 S1 正式 run 使用 160 epoch（B1 200），最佳 epoch 接近上限，仍有欠训练可能。
 - 未做超参数搜索；B5 的收益是单次选型结果，需在 M7 外部数据上复核。
 - 边界/平滑项的权重未系统调参；B4 的负结果说明当前平滑权重过强。
+
+---
+
+## 16. M7-A 外部 Baseline 复现与统一协议对比
+
+M7-A 在 M3 冻结的 11 个 split 上复现/适配了两个外部方法，并与 M4、M6-B 在统一 matrix-macro RMSE 口径下比较。
+
+| 模型 | S1 | S2 | S3 | 等权平均 | 说明 |
+| --- | ---: | ---: | ---: | ---: | --- |
+| M4 B0 Mean | 0.3060 | 0.3022 | 0.3066 | 0.3049 | 归档 |
+| M4 B1 Tree-Dose | 0.2467 | 0.2497 | 0.2819 | 0.2594 | 归档 |
+| M4 B2 MLP-Dose | 0.0764 | 0.1022 | 0.2033 | 0.1273 | 归档 |
+| M4 B3 GINE | 0.0795 | 0.0897 | 0.1994 | 0.1228 | 归档 |
+| M6-B B1 (T3) | 0.0793 | 0.1085 | 0.1966 | 0.1281 | 归档 |
+| **M6-B B5 (T3+FiLM)** | **0.0650** | **0.0768** | **0.1937** | **0.1118** | 归档，最终模型 |
+| comboKR 2.0 | 0.1341 | 0.1361 | — | 0.1351* | 本阶段，忠实复现 |
+| DeepSynBa (adapted) | 0.2353 | 0.2670 | 0.2754 | 0.2592 | 本阶段，仅补充 |
+
+\* comboKR 的 S3 因 Hill 参数包含测试细胞系单药信息而按协议不运行，其平均只覆盖 S1/S2。
+
+- comboKR：官方代码 + 官方 BRAID 拟合 + RBF 核；本项目 Primary-v1 有 18,235/18,599 个矩阵可映射（MK-8776 缺失）。为排除矩阵组成影响，另做了 comboKR 可用矩阵子集上的同口径对比：B5 仍为 0.0646/0.0756，comboKR 为 0.1341/0.1361。
+- DeepSynBa：官方结构保留，但药物输入由 MoLFormer 换为 Morgan 指纹、细胞由 NCI-60 换为 CCLE、目标由 SynBa 参数换为 X/X0 曲面，只能作为 adapted supplementary。
+- DD-PRiSM：未找到公开可运行代码，记为不可复现，未编造数字。
+
+```bash
+# comboKR 适配层（/tmp/m7venv）
+/tmp/m7venv/bin/python src/dosesyn/baselines/external/combokr_adapter.py \
+  --scenario s1_random_condition --seed 42 --split test \
+  --out outputs/runs/m7a/combokr/s1_random_condition/seed_42/predictions.parquet
+
+# DeepSynBa 适配层（项目 .venv）
+.venv/bin/python src/dosesyn/baselines/external/deepsynba_adapter.py \
+  --scenario s1_random_condition --seed 42 --epochs 60 --patience 10 \
+  --batch-size 512 --device cuda \
+  --out outputs/runs/m7a/deepsynba/s1_random_condition/seed_42/predictions.parquet
+
+# 汇总、同子集对比、测试
+.venv/bin/python scripts/16_aggregate_m7a.py
+.venv/bin/python scripts/17_m7a_common_subset.py
+.venv/bin/python -m pytest -q tests
+```
+
+报告：[`m7a_report.md`](m7a_report.md)；可行性：[`docs/decisions/m7a_baseline_feasibility.md`](docs/decisions/m7a_baseline_feasibility.md)；
+协议：[`docs/decisions/m7a_experiment_protocol.md`](docs/decisions/m7a_experiment_protocol.md)。
+
+**M7-A 结论：CONDITIONAL PASS。** 主排名结论成立，但 comboKR 的 S3 不适用、DeepSynBa 非忠实复现、DD-PRiSM 无代码，须在论文中明确标注。
