@@ -1,0 +1,6 @@
+fold,n,positive_rate,auc,accuracy,mean_p_positive,mean_p_negative,checkpoint
+0,2000,0.4325,0.9636138626467368,0.903,0.8196729421615601,0.13262930512428284,result/paper_reproduction/2026-09-10_15-44-09_19269.mgt/random_cv/weight_DrugCombDB/cv_DrugCombDB_mode_1_fold_num_0.pth
+1,2000,0.4325,0.9518993659443354,0.886,0.7870469093322754,0.1511472463607788,result/paper_reproduction/2026-09-10_15-44-09_19269.mgt/random_cv/weight_DrugCombDB/cv_DrugCombDB_mode_1_fold_num_1.pth
+2,2000,0.4325,0.9608627231290265,0.9145,0.8462477922439575,0.11423275619745255,result/paper_reproduction/2026-09-10_15-44-09_19269.mgt/random_cv/weight_DrugCombDB/cv_DrugCombDB_mode_1_fold_num_2.pth
+3,2000,0.4325,0.9672246696035244,0.9245,0.8559058308601379,0.09748467803001404,result/paper_reproduction/2026-09-10_15-44-09_19269.mgt/random_cv/weight_DrugCombDB/cv_DrugCombDB_mode_1_fold_num_3.pth
+4,2000,0.4325,0.9741142318759389,0.9255,0.8516155481338501,0.09801947325468063,result/paper_reproduction/2026-09-10_15-44-09_19269.mgt/random_cv/weight_DrugCombDB/cv_DrugCombDB_mode_1_fold_num_4.pth

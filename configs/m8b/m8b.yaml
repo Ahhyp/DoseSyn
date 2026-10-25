@@ -1,0 +1,18 @@
+version: m8b-v1
+description: ConfSyn-DoseSyn frozen-model joint screening and dose-response visualization (M8-B)
+confsyn_root: /home/kouzheng_2/AH_YeP/confsyn/Consyn
+scenario: s2_unseen_pair
+split_id: seed_42
+evidence_level: A
+paths:
+  m8a_evidence: outputs/metrics/m8a/split_matrix_evidence.parquet
+  m8a_drug_mapping: outputs/metrics/m8a/drug_mapping.csv
+  m8a_cell_mapping: outputs/metrics/m8a/cell_mapping.csv
+  dosesyn_run: outputs/runs/m6b/m6b__b5_t3_film_reg__s2_unseen_pair__seed_42
+  outputs_metrics: outputs/metrics/m8b
+  outputs_figures: outputs/figures/m8b
+  outputs_audit: outputs/audit/m8b
+  report: m8b_report.md
+folds: [0, 1, 2, 3, 4]
+sanity_n: 2000
+sanity_seed: 0

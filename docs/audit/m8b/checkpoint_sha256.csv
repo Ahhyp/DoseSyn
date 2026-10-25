@@ -1,0 +1,6 @@
+fold,path,bytes,sha256
+0,/home/kouzheng_2/AH_YeP/confsyn/Consyn/result/paper_reproduction/2026-09-10_15-44-09_19269.mgt/random_cv/weight_DrugCombDB/cv_DrugCombDB_mode_1_fold_num_0.pth,353891377,c3af91daeaeaca7845e97f1544c0dd97daa79dd48d4ba8061579c15b70dee950
+1,/home/kouzheng_2/AH_YeP/confsyn/Consyn/result/paper_reproduction/2026-09-10_15-44-09_19269.mgt/random_cv/weight_DrugCombDB/cv_DrugCombDB_mode_1_fold_num_1.pth,353891377,2ee0ece97bb38a80f721cbfc5c4f77aa6303f2a6edd5a3c12d88006bf11508da
+2,/home/kouzheng_2/AH_YeP/confsyn/Consyn/result/paper_reproduction/2026-09-10_15-44-09_19269.mgt/random_cv/weight_DrugCombDB/cv_DrugCombDB_mode_1_fold_num_2.pth,353891377,9044efe3bc679b3b898c4a0a0d1009a735eff5cd8f7242dce2c14ab1293e506a
+3,/home/kouzheng_2/AH_YeP/confsyn/Consyn/result/paper_reproduction/2026-09-10_15-44-09_19269.mgt/random_cv/weight_DrugCombDB/cv_DrugCombDB_mode_1_fold_num_3.pth,353891377,89060a8ddd1ff81846725e1896ad301bb5c7844d1dccae20b4a1b0ba0b03b856
+4,/home/kouzheng_2/AH_YeP/confsyn/Consyn/result/paper_reproduction/2026-09-10_15-44-09_19269.mgt/random_cv/weight_DrugCombDB/cv_DrugCombDB_mode_1_fold_num_4.pth,353891377,876e5a792bc6f90537dd13c182d00d4db5565dab30ee1adeefb4b23da96987da

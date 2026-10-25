@@ -1,0 +1,140 @@
+{
+  "generated_at": "2026-10-25T12:49:56+00:00",
+  "stage": "M8-B",
+  "scenario": "s2_unseen_pair",
+  "split_id": "seed_42",
+  "candidate_matrices": 120,
+  "a_candidates_before_entity_filter": 300,
+  "unscoreable_candidates": 180,
+  "confsyn_folds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "confsyn_checkpoint_validation": [
+    {
+      "fold": 0,
+      "n": 2000,
+      "positive_rate": 0.4325,
+      "auc": 0.9636138626467368,
+      "accuracy": 0.903,
+      "mean_p_positive": 0.8196729421615601,
+      "mean_p_negative": 0.13262930512428284,
+      "checkpoint": "result/paper_reproduction/2026-09-10_15-44-09_19269.mgt/random_cv/weight_DrugCombDB/cv_DrugCombDB_mode_1_fold_num_0.pth"
+    },
+    {
+      "fold": 1,
+      "n": 2000,
+      "positive_rate": 0.4325,
+      "auc": 0.9518993659443354,
+      "accuracy": 0.886,
+      "mean_p_positive": 0.7870469093322754,
+      "mean_p_negative": 0.1511472463607788,
+      "checkpoint": "result/paper_reproduction/2026-09-10_15-44-09_19269.mgt/random_cv/weight_DrugCombDB/cv_DrugCombDB_mode_1_fold_num_1.pth"
+    },
+    {
+      "fold": 2,
+      "n": 2000,
+      "positive_rate": 0.4325,
+      "auc": 0.9608627231290265,
+      "accuracy": 0.9145,
+      "mean_p_positive": 0.8462477922439575,
+      "mean_p_negative": 0.11423275619745255,
+      "checkpoint": "result/paper_reproduction/2026-09-10_15-44-09_19269.mgt/random_cv/weight_DrugCombDB/cv_DrugCombDB_mode_1_fold_num_2.pth"
+    },
+    {
+      "fold": 3,
+      "n": 2000,
+      "positive_rate": 0.4325,
+      "auc": 0.9672246696035244,
+      "accuracy": 0.9245,
+      "mean_p_positive": 0.8559058308601379,
+      "mean_p_negative": 0.09748467803001404,
+      "checkpoint": "result/paper_reproduction/2026-09-10_15-44-09_19269.mgt/random_cv/weight_DrugCombDB/cv_DrugCombDB_mode_1_fold_num_3.pth"
+    },
+    {
+      "fold": 4,
+      "n": 2000,
+      "positive_rate": 0.4325,
+      "auc": 0.9741142318759389,
+      "accuracy": 0.9255,
+      "mean_p_positive": 0.8516155481338501,
+      "mean_p_negative": 0.09801947325468063,
+      "checkpoint": "result/paper_reproduction/2026-09-10_15-44-09_19269.mgt/random_cv/weight_DrugCombDB/cv_DrugCombDB_mode_1_fold_num_4.pth"
+    }
+  ],
+  "p_mean": {
+    "min": 0.0014600632712244987,
+    "median": 0.6691834926605225,
+    "max": 0.9994872808456421,
+    "n_ge_0_5": 79,
+    "n_ge_0_9": 33
+  },
+  "p_std": {
+    "mean": 0.139890655875206,
+    "max": 0.3821799159049988
+  },
+  "dosesyn": {
+    "y_pred_mean_min": 0.2978363058064133,
+    "y_pred_mean_median": 0.6032769301673397,
+    "y_pred_mean_max": 0.883427731692791,
+    "y_pred_min_min": -0.021772295236587524
+  },
+  "spearman": {
+    "p_mean": {
+      "p_mean": 1.0,
+      "y_pred_mean": 0.0332939787485242,
+      "y_pred_min": -0.11824432252239739,
+      "p_std": -0.3783179387457462
+    },
+    "y_pred_mean": {
+      "p_mean": 0.0332939787485242,
+      "y_pred_mean": 1.0,
+      "y_pred_min": 0.7609556219181888,
+      "p_std": 0.1945899020765331
+    },
+    "y_pred_min": {
+      "p_mean": -0.11824432252239739,
+      "y_pred_mean": 0.7609556219181888,
+      "y_pred_min": 1.0,
+      "p_std": 0.21860545871241058
+    },
+    "p_std": {
+      "p_mean": -0.3783179387457462,
+      "y_pred_mean": 0.1945899020765331,
+      "y_pred_min": 0.21860545871241058,
+      "p_std": 1.0
+    }
+  },
+  "sources": {
+    "evidence": "/home/kouzheng_2/AH_YeP/DoseSyn/outputs/metrics/m8a/split_matrix_evidence.parquet",
+    "evidence_sha256": "b599781d74a311da667fc6b19e16e2a1a69106d7054d62f0070126aef26af2c9",
+    "dosesyn_predictions": "/home/kouzheng_2/AH_YeP/DoseSyn/outputs/runs/m6b/m6b__b5_t3_film_reg__s2_unseen_pair__seed_42/predictions_test.parquet",
+    "dosesyn_predictions_sha256": "3ddf9de915e85c376a5c0cf659f7f32315df6a90e2302d809aa7d5106f259a36",
+    "confsyn_checkpoints": [
+      "/home/kouzheng_2/AH_YeP/confsyn/Consyn/result/paper_reproduction/2026-09-10_15-44-09_19269.mgt/random_cv/weight_DrugCombDB/cv_DrugCombDB_mode_1_fold_num_0.pth",
+      "/home/kouzheng_2/AH_YeP/confsyn/Consyn/result/paper_reproduction/2026-09-10_15-44-09_19269.mgt/random_cv/weight_DrugCombDB/cv_DrugCombDB_mode_1_fold_num_1.pth",
+      "/home/kouzheng_2/AH_YeP/confsyn/Consyn/result/paper_reproduction/2026-09-10_15-44-09_19269.mgt/random_cv/weight_DrugCombDB/cv_DrugCombDB_mode_1_fold_num_2.pth",
+      "/home/kouzheng_2/AH_YeP/confsyn/Consyn/result/paper_reproduction/2026-09-10_15-44-09_19269.mgt/random_cv/weight_DrugCombDB/cv_DrugCombDB_mode_1_fold_num_3.pth",
+      "/home/kouzheng_2/AH_YeP/confsyn/Consyn/result/paper_reproduction/2026-09-10_15-44-09_19269.mgt/random_cv/weight_DrugCombDB/cv_DrugCombDB_mode_1_fold_num_4.pth"
+    ]
+  },
+  "environment": {
+    "python": "3.10.21",
+    "executable": "/home/kouzheng_2/AH_YeP/DoseSyn/.venv/bin/python",
+    "platform": "Linux-4.18.0-513.5.1.el8_9.x86_64-x86_64-with-glibc2.28",
+    "numpy": "1.21.6",
+    "pandas": "1.3.5",
+    "openpyxl": "3.1.2",
+    "pyarrow": "10.0.1",
+    "cwd": "/home/kouzheng_2/AH_YeP/confsyn/Consyn"
+  },
+  "notes": [
+    "ConfSyn p is the positive-class probability for DrugCombDB label synergy>=0; it is not X/X0 and not a standard synergy score.",
+    "All candidates are M8-A evidence level A (absent from DrugCombDB), on the DoseSyn S2 seed42 test split.",
+    "DoseSyn B5 is frozen; predictions come from the existing M6-B run, not a new inference pass.",
+    "ConfSyn official per-sample split indices are not persisted; checkpoint validation is a label-reconstruction check, not an independent test metric."
+  ]
+}

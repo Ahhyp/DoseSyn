@@ -1,0 +1,55 @@
+{
+  "generated_at": "2026-10-25T12:52:41.378635+00:00",
+  "hashes": {
+    "bridge_candidates.csv": "b4791f0921b496040a8ecae1cf1839f5797260d14d8762aeaadf6b21fbc32d7a",
+    "confsyn_checkpoint_validation.csv": "6e55cd5cc14d889d85710f897f372a83ce9d3d665e29ff456b40a5bcab3352fc",
+    "confsyn_scores_s2_seed42.csv": "b698e5477fdaa7e5361665bf7353e7290f4e8bc77d985e8b42fb14f4f88fce49",
+    "confsyn_unscoreable_candidates.csv": "629045bdfc636dd8c04760e6bb65ca3d88583fe7f4160470c28e0cc078949986",
+    "dosesyn_surfaces.json": "00ec51189f32658e0bbb3f75dc4eabbbe73a7e1247b8c4f9f30a26f9de13158e",
+    "joint_ranking_top30.csv": "0919effa7d899c03eaebca64e3869f2914c9a82e9d5369189cfe4a75184ed93e",
+    "m8b_summary.json": "8ec13516e1155cc5c970ca11098e6d29ff9964acdce93858209ca499b36b6da5",
+    "figures/fig8_1_dual_dimension_scatter.pdf": "1ef4b0549809ff203851d66e7569198756137b77e298ee544e0c71ebf2795cdf",
+    "figures/fig8_1_dual_dimension_scatter.png": "0819160da5390e1cd8909ebec94de4a50c80b2aeec8a8c168c399b80416b7c48",
+    "figures/fig8_1_dual_dimension_scatter.svg": "8ac33fb2d12c7b5a3b838cd9456597301d606fb95cf1826399bd79e77fa5fbce",
+    "figures/fig8_2_top_candidates.pdf": "0254c10b208a7f066b99c7419afc89463a1dd28ab0a5bf38f9ca226923496dc0",
+    "figures/fig8_2_top_candidates.png": "0a636fb8aa4afa3c75daf698614945e1910fd7a37d11a38a2e9b8059a2c167ff",
+    "figures/fig8_2_top_candidates.svg": "7b48bbb7aada1f64ee9258ce99e033fe61a1b42bdefbd33c13cb3977340abc54",
+    "figures/fig8_3_top_surface_heatmaps.pdf": "dbc9eba7a9bf6a7596c39cfc8fc35b637242006ecf059afa7aec552e46707c54",
+    "figures/fig8_3_top_surface_heatmaps.png": "635e9b4b5629495954fb63d4bcdf7699ce41bbbc1ca57aefc5151cd39ef80181",
+    "figures/fig8_3_top_surface_heatmaps.svg": "e34ee046e91ef55e0890529715893f20db62a8edc59b23caa89eef0d662a400a"
+  },
+  "checkpoints": [
+    {
+      "fold": 0,
+      "path": "/home/kouzheng_2/AH_YeP/confsyn/Consyn/result/paper_reproduction/2026-09-10_15-44-09_19269.mgt/random_cv/weight_DrugCombDB/cv_DrugCombDB_mode_1_fold_num_0.pth",
+      "bytes": 353891377,
+      "sha256": "c3af91daeaeaca7845e97f1544c0dd97daa79dd48d4ba8061579c15b70dee950"
+    },
+    {
+      "fold": 1,
+      "path": "/home/kouzheng_2/AH_YeP/confsyn/Consyn/result/paper_reproduction/2026-09-10_15-44-09_19269.mgt/random_cv/weight_DrugCombDB/cv_DrugCombDB_mode_1_fold_num_1.pth",
+      "bytes": 353891377,
+      "sha256": "2ee0ece97bb38a80f721cbfc5c4f77aa6303f2a6edd5a3c12d88006bf11508da"
+    },
+    {
+      "fold": 2,
+      "path": "/home/kouzheng_2/AH_YeP/confsyn/Consyn/result/paper_reproduction/2026-09-10_15-44-09_19269.mgt/random_cv/weight_DrugCombDB/cv_DrugCombDB_mode_1_fold_num_2.pth",
+      "bytes": 353891377,
+      "sha256": "9044efe3bc679b3b898c4a0a0d1009a735eff5cd8f7242dce2c14ab1293e506a"
+    },
+    {
+      "fold": 3,
+      "path": "/home/kouzheng_2/AH_YeP/confsyn/Consyn/result/paper_reproduction/2026-09-10_15-44-09_19269.mgt/random_cv/weight_DrugCombDB/cv_DrugCombDB_mode_1_fold_num_3.pth",
+      "bytes": 353891377,
+      "sha256": "89060a8ddd1ff81846725e1896ad301bb5c7844d1dccae20b4a1b0ba0b03b856"
+    },
+    {
+      "fold": 4,
+      "path": "/home/kouzheng_2/AH_YeP/confsyn/Consyn/result/paper_reproduction/2026-09-10_15-44-09_19269.mgt/random_cv/weight_DrugCombDB/cv_DrugCombDB_mode_1_fold_num_4.pth",
+      "bytes": 353891377,
+      "sha256": "876e5a792bc6f90537dd13c182d00d4db5565dab30ee1adeefb4b23da96987da"
+    }
+  ],
+  "report_sha256": "f2411890b617e7f86f5007c118176475282ea066a50d0a0c681ef954a01c3397",
+  "report": "m8b_report.md"
+}

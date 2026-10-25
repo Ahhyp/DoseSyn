@@ -682,3 +682,34 @@ split 未持久化、缺少 OncologyScreen checkpoint，且三套标签语义不
 .venv/bin/python scripts/26_audit_m8a.py
 .venv/bin/python -m pytest -q tests
 ```
+
+## 21. M8-B：冻结 ConfSyn × DoseSyn 联合筛选
+
+在 M8-A 的 **A 级**（不在 DrugCombDB 表中、且在 DoseSyn 测试集）候选上，恢复
+ConfSyn 五折 DrugCombDB checkpoint，与冻结 B5 的 4×4 `X/X0` 曲面做联合展示。
+**不重新训练、不微调、不用测试标签选候选。**
+
+- S2 seed42 A 级候选 300 个；其中 180 个因药物/细胞不在 DrugCombDB 图内无法评分
+  （主要是 OncologyScreen 独有的 SN-38 等）；最终 120 个可评分条件。
+- ConfSyn 五折标签重建 AUC 0.952–0.974（**不是泛化指标**，逐样本划分未持久化）。
+- ConfSyn `p(synergy>=0)` 与 DoseSyn 曲面均值的 Spearman 仅 0.033、与曲面最小值
+  −0.118：两个模型对组合优先级的看法高度不一致，这一结果如实保留。
+- 二维象限（p>0.5 / min X/X0<0.2）：同向 56、ConfSyn-only 23、DoseSyn-only 25、
+  同向低 16。典型分歧为 Zolinza+Lapatinib：ConfSyn 0.994–0.999，但 B5 曲面均值
+  0.57–0.75（未强抑制）。
+- 两个输出保持分离，未合成单一协同分数；`X/X0` 未被解释为协同标签。
+
+| 内容 | 路径 |
+| --- | --- |
+| 报告 | [`m8b_report.md`](m8b_report.md) |
+| 联合主表 | [`outputs/metrics/m8b/bridge_candidates.csv`](outputs/metrics/m8b/bridge_candidates.csv) |
+| Top-30 | [`outputs/metrics/m8b/joint_ranking_top30.csv`](outputs/metrics/m8b/joint_ranking_top30.csv) |
+| 五折概率 | [`outputs/metrics/m8b/confsyn_scores_s2_seed42.csv`](outputs/metrics/m8b/confsyn_scores_s2_seed42.csv) |
+| 图 | [`outputs/figures/m8b/`](outputs/figures/m8b) |
+| 审计副本 | [`outputs/audit/m8b/`](outputs/audit/m8b) |
+
+```bash
+.venv/bin/python scripts/27_run_m8b.py
+/tmp/m7venv/bin/python scripts/28_plot_m8b.py
+.venv/bin/python -m pytest -q tests
+```
