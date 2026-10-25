@@ -1,0 +1,35 @@
+{
+  "stage": "M7-B",
+  "verdict": "PASS",
+  "n_runs": 57,
+  "center_models": 4,
+  "center_runs": 36,
+  "masks": [
+    "center_holdout_75",
+    "checkerboard_holdout_50",
+    "corners_holdout_25",
+    "boundary_holdout_50"
+  ],
+  "git_commit": "973fba6d5f95dba2e2f6ad71acecf38dadc1d8f3",
+  "environment": {
+    "hostname": "mgt",
+    "platform": "Linux-4.18.0-513.5.1.el8_9.x86_64-x86_64-with-glibc2.28",
+    "python": "3.10.21",
+    "executable": "/home/kouzheng_2/AH_YeP/DoseSyn/.venv/bin/python",
+    "pandas": "1.3.5",
+    "numpy": "1.21.6",
+    "sklearn": "1.0.2",
+    "torch": "1.13.1",
+    "cuda_available": false,
+    "torch_cuda": "11.7",
+    "torch_geometric": "2.3.1"
+  },
+  "files": {
+    "b1_center_summary.csv": 3782,
+    "boundary_summary.csv": 2700,
+    "paired_deltas.csv": 6424,
+    "runs.csv": 24170,
+    "sparsity_summary.csv": 7182,
+    "summary.csv": 9710
+  }
+}

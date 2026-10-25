@@ -1,0 +1,93 @@
+version: m7b-v1
+stage: M7-B
+base_commit: "973fba6d5f95dba2e2f6ad71acecf38dadc1d8f3"
+
+paths:
+  logs_dir: outputs/logs
+
+inputs:
+  dataset_config: configs/dataset_primary_v1.yaml
+  m4_config: configs/m4_training.yaml
+  m6b_config: configs/m6b_experiments.yaml
+
+outputs:
+  runs_dir: outputs/runs/m7b
+  metrics_dir: outputs/metrics/m7b
+  figures_dir: outputs/figures/m7b
+  audit_dir: outputs/audit
+  report: m7b_report.md
+
+masks:
+  center_holdout_75:
+    kind: interpolation
+    primary: true
+  checkerboard_holdout_50:
+    kind: sparsity
+  corners_holdout_25:
+    kind: sparsity
+  boundary_holdout_50:
+    kind: boundary
+
+models:
+  m4_b2_mlp:
+    source: m4
+    name: b2_mlp
+  m4_b3_gine:
+    source: m4
+    name: b3_gine
+  m6b_b1_t3:
+    source: m6b
+    variant: b1_t3_fourier
+  m6b_b5_film:
+    source: m6b
+    variant: b5_t3_film_reg
+
+training:
+  seed: 42
+  batch_size: 64
+  eval_batch_size: 256
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  huber_delta: 1.0
+  grad_clip: 5.0
+  epochs: 160
+  patience: 30
+  min_epochs: 10
+  threads: 4
+
+runs:
+  b1_center_all:
+    mask: center_holdout_75
+    models: [m6b_b5_film, m6b_b1_t3, m4_b3_gine]
+    scenarios:
+      s1_random_condition: {kind: seed, values: [13, 42, 2026]}
+      s2_unseen_pair: {kind: seed, values: [13, 42, 2026]}
+      s3_unseen_cell: {kind: fold, values: [0, 1, 2, 3, 4]}
+  b2_dev_mlp:
+    mask: center_holdout_75
+    models: [m4_b2_mlp]
+    scenarios:
+      s1_random_condition: {kind: seed, values: [42]}
+      s2_unseen_pair: {kind: seed, values: [42]}
+      s3_unseen_cell: {kind: fold, values: [0]}
+  sparse_dev:
+    masks: [checkerboard_holdout_50, corners_holdout_25]
+    models: [m6b_b5_film, m4_b3_gine]
+    scenarios:
+      s1_random_condition: {kind: seed, values: [42]}
+      s2_unseen_pair: {kind: seed, values: [42]}
+      s3_unseen_cell: {kind: fold, values: [0]}
+  boundary_dev:
+    mask: boundary_holdout_50
+    models: [m6b_b5_film, m4_b3_gine, m6b_b1_t3]
+    scenarios:
+      s1_random_condition: {kind: seed, values: [42]}
+      s2_unseen_pair: {kind: seed, values: [42]}
+      s3_unseen_cell: {kind: fold, values: [0]}
+
+report:
+  open_issues:
+    - "中心留出实验检验的是网格位置插值，不是绝对浓度数值的全局外推。"
+    - "S3 严格细胞系隔离；测试细胞系单药/组合标签不参与训练或适配。"
+    - "高剂量边界实验为压力测试，允许原始预测超出物理范围，不做裁剪。"
+    - "不同观测比例的训练预算固定为 160 epoch，未针对掩码调参。"

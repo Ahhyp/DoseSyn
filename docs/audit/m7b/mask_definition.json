@@ -1,0 +1,200 @@
+{
+  "center_holdout_75": {
+    "name": "center_holdout_75",
+    "held_indices": [
+      5,
+      6,
+      9,
+      10
+    ],
+    "observed_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      7,
+      8,
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "n_held": 4,
+    "n_observed": 12,
+    "description": "中心 2x2 四点留出，其余 12 点可观测（插值主实验）",
+    "kind": "interpolation",
+    "version": "371a327b4ec46091",
+    "held_grid": [
+      [
+        1,
+        1,
+        2,
+        2
+      ],
+      [
+        1,
+        2,
+        1,
+        2
+      ]
+    ]
+  },
+  "checkerboard_holdout_50": {
+    "name": "checkerboard_holdout_50",
+    "held_indices": [
+      1,
+      3,
+      4,
+      6,
+      9,
+      11,
+      12,
+      14
+    ],
+    "observed_indices": [
+      0,
+      2,
+      5,
+      7,
+      8,
+      10,
+      13,
+      15
+    ],
+    "n_held": 8,
+    "n_observed": 8,
+    "description": "棋盘交错留出 8 点，观测 8 点（50% observed）",
+    "kind": "sparsity",
+    "version": "27b94d92a92ae7d4",
+    "held_grid": [
+      [
+        0,
+        0,
+        1,
+        1,
+        2,
+        2,
+        3,
+        3
+      ],
+      [
+        1,
+        3,
+        0,
+        2,
+        1,
+        3,
+        0,
+        2
+      ]
+    ]
+  },
+  "corners_holdout_25": {
+    "name": "corners_holdout_25",
+    "held_indices": [
+      1,
+      2,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      13,
+      14
+    ],
+    "observed_indices": [
+      0,
+      3,
+      12,
+      15
+    ],
+    "n_held": 12,
+    "n_observed": 4,
+    "description": "仅保留四角 4 点观测，留出 12 点（25% observed）",
+    "kind": "sparsity",
+    "version": "51575f98b2b555ec",
+    "held_grid": [
+      [
+        0,
+        0,
+        1,
+        1,
+        1,
+        1,
+        2,
+        2,
+        2,
+        2,
+        3,
+        3
+      ],
+      [
+        1,
+        2,
+        0,
+        1,
+        2,
+        3,
+        0,
+        1,
+        2,
+        3,
+        1,
+        2
+      ]
+    ]
+  },
+  "boundary_holdout_50": {
+    "name": "boundary_holdout_50",
+    "held_indices": [
+      3,
+      7,
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "observed_indices": [
+      0,
+      1,
+      2,
+      4,
+      5,
+      6,
+      8,
+      9,
+      10
+    ],
+    "n_held": 7,
+    "n_observed": 9,
+    "description": "最高剂量 A 整行 + 最高剂量 B 整列，留出 7 点（边界外推）",
+    "kind": "boundary",
+    "version": "846e59818a571c76",
+    "held_grid": [
+      [
+        0,
+        1,
+        2,
+        3,
+        3,
+        3,
+        3
+      ],
+      [
+        3,
+        3,
+        3,
+        0,
+        1,
+        2,
+        3
+      ]
+    ]
+  }
+}

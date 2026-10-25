@@ -1,0 +1,11 @@
+#!/bin/bash
+#PBS -N m7b_bound_b1
+#PBS -q gentai
+#PBS -l nodes=node4:ppn=2
+#PBS -l walltime=04:00:00
+#PBS -j oe
+cd /home/kouzheng_2/AH_YeP/DoseSyn || exit 1
+exec > outputs/logs/pbs_m7b_boundary_b1.log 2>&1
+export CUDA_VISIBLE_DEVICES=1
+export OMP_NUM_THREADS=2
+.venv/bin/python -u scripts/18_run_m7b.py --group boundary_dev --model m6b_b1_t3 --force || true

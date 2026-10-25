@@ -562,3 +562,35 @@ M7-A 在 M3 冻结的 11 个 split 上复现/适配了两个外部方法，并�
 协议：[`docs/decisions/m7a_experiment_protocol.md`](docs/decisions/m7a_experiment_protocol.md)。
 
 **M7-A 结论：CONDITIONAL PASS。** 主排名结论成立，但 comboKR 的 S3 不适用、DeepSynBa 非忠实复现、DD-PRiSM 无代码，须在论文中明确标注。
+
+## 18. M7-B：剂量位置插值与稀疏曲面泛化
+
+M7-B 在**不改变 M3 划分、不改变 B5 结构**的前提下，将每个 4×4 矩阵的中心 2×2（`(1,1),(1,2),(2,1),(2,2)`）从训练监督中完全移除，只用其余 12 点训练，并在留出的 4 点测试。
+
+- 主实验：B5、B3、B1 三个模型在 11 个冻结 split 上重新训练；测试标签只在 checkpoint 选定后读取一次。
+- 稀疏实验：50% 交错掩码、25% 四角掩码，S1/S2 seed42、S3 fold0。
+- 边界实验：留出最高剂量 A 行与最高剂量 B 列（7 点），检验高剂量外推，不与中心插值混合排名。
+- 训练预算：160 epoch、patience 30、cosine、batch 64；所有模型共享同一掩码。
+
+B5 中心留出测试（held-out matrix-macro RMSE）：S1 0.0702、S2 0.0811、S3 0.2050。
+与 M6-B 全 16 点结果（0.0650/0.0768/0.1937）相比，中心留出分别变差约 7.9%/5.7%/5.8%，说明模型具备有限但可测量的网格插值能力，S3 未见细胞仍是主要瓶颈。
+
+同口径下，B3 GINE 为 0.0765/0.0898/0.2032，B1 T3 为 0.0988/0.1185/0.2126：B5 在 S1/S2 领先，S3 与 B3 基本持平（B3 低 0.0018）。
+稀疏与边界实验出现排序反转：50% 观测时 B5/B3 接近，25% 四角时 B3 明显更好（S1 0.121 vs B5 0.157）；
+高剂量边界外推 B3 为 0.121/0.123/0.207，显著优于 B5 的 0.234/0.234/0.264。
+因此 FiLM/Fourier 的收益依赖观测密度和目标区域，不能宣称在所有插值/外推条件下全面优于 GINE。
+
+完整协议、逐 split 配对差异、稀疏/边界结果、曲面案例与失败案例见
+[`m7b_report.md`](m7b_report.md)；协议细节见
+[`docs/decisions/m7b_protocol.md`](docs/decisions/m7b_protocol.md)。
+
+```bash
+.venv/bin/python scripts/18_run_m7b.py --group b1_center_all --force
+.venv/bin/python scripts/18_run_m7b.py --group sparse_dev --force
+.venv/bin/python scripts/18_run_m7b.py --group boundary_dev --force
+.venv/bin/python scripts/19_aggregate_m7b.py
+.venv/bin/python scripts/20_plot_m7b_surfaces.py
+.venv/bin/python -m pytest -q tests
+```
+
+**M7-B 结论：以 `m7b_report.md` 的自动判定为准。** 不因测试结果修改 B5 结构或掩码；所有负结果保留。

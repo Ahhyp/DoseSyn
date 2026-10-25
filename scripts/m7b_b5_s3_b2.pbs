@@ -1,0 +1,12 @@
+#!/bin/bash
+#PBS -N m7b_b5_s3_b2
+#PBS -q gentai
+#PBS -l nodes=node4:ppn=2
+#PBS -l walltime=06:00:00
+#PBS -j oe
+cd /home/kouzheng_2/AH_YeP/DoseSyn || exit 1
+exec > outputs/logs/pbs_m7b_b5_s3_b2.log 2>&1
+export CUDA_VISIBLE_DEVICES=1
+export OMP_NUM_THREADS=4
+.venv/bin/python -u scripts/18_run_m7b.py --group b1_center_all --model m6b_b5_film --scenario s3_unseen_cell --force || true
+.venv/bin/python -u scripts/18_run_m7b.py --group b2_dev_mlp --model m4_b2_mlp --force || true
