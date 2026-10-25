@@ -713,3 +713,27 @@ ConfSyn 五折 DrugCombDB checkpoint，与冻结 B5 的 4×4 `X/X0` 曲面做联
 /tmp/m7venv/bin/python scripts/28_plot_m8b.py
 .venv/bin/python -m pytest -q tests
 ```
+
+## 22. M8-C：联合筛选核验与第四章整合
+
+- 恢复 BERT stub 核验：ConfSyn checkpoint 含 104 个 BERT 张量（44.1M 参数），但推理使用缓存 ChemBERTa 投影，`drug_semantic_enc.forward` 调用 0 次；重初始化未使用的 `proj` 与替换 stub 均使预测变化 0.0；置零缓存投影使平均概率变化 0.331。
+- 统一 300 个 A 级候选口径：120 可评分 + 180 不可评分（全部含 SN-38）；27 个双信号候选（p≥0.9 且 min X/X0<0.2）；2 个高概率且高最低响应（p≥0.95 且 min X/X0≥0.35）。
+- 原“27 个强分歧”修正为“高协同倾向且存在低 `X/X0` 剂量点的双信号候选”，不表示两个模型相互验证。
+- 4 个预设案例（最高概率、中位概率、高概率高最低响应、双信号最大间距）完成 4×16 原始行追溯，标签/剂量 float32 最大差 2.9×10⁻⁸ / 4.3×10⁻⁸；案例 B5 RMSE 0.033–0.052。
+- 第四章新增 4.3.9 节、4 张图（4-14–4-17）、3 张表（4-9–4-11），4.4 小结新增第 6 条与两条研究主线衔接说明。
+- 全量测试 246+12=258 项（M8-C 新增 12 项）。
+
+| 内容 | 路径 |
+| --- | --- |
+| M8-C 报告 | [`m8c_report.md`](m8c_report.md) |
+| M8 总报告 | [`m8_final_report.md`](m8_final_report.md) |
+| 第四章正文 | [`docs/paper/chapter4_experiments.md`](docs/paper/chapter4_experiments.md) |
+| 图 4-14–4-17 | [`docs/paper/figures/m8c/`](docs/paper/figures/m8c) |
+| 表 4-9–4-11 | [`docs/paper/tables/`](docs/paper/tables) |
+| 审计副本 | [`docs/audit/m8c/`](docs/audit/m8c) |
+
+```bash
+.venv/bin/python scripts/29_build_m8c.py
+/tmp/m7venv/bin/python scripts/30_plot_m8c.py
+.venv/bin/python -m pytest -q tests
+```

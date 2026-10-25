@@ -1,0 +1,5 @@
+case_id,selection_rule,matrix_id,condition_id,cell_line,drug_a_name,drug_b_name,p_mean,p_std,y_pred_mean,y_pred_min,y_true_mean,dual_signal,high_p_high_min
+top_p,highest five-fold mean ConfSyn probability,MTX_0789c8f4f5a3,COND_8ede02e3f2e5,A2780,Zolinza,Lapatinib,0.9994873,0.00020451633,0.6411102307029068,0.0866647288203239,0.6575256288051605,True,False
+median_p,candidate whose p_mean is closest to the 120-candidate median,MTX_19a1a1a84643,COND_91e323ceb8b2,A2058,Etoposide,ABT-888,0.67110074,0.3096912,0.4762216154485941,0.1471528708934784,0.4956887466832995,False,False
+high_p_high_min,"among p_mean>=0.95, highest predicted surface minimum",MTX_0c18c12f877c,COND_ebadf10a8ad0,NCIH2122,Etoposide,ABT-888,0.96551687,0.037994005,0.6113791465759277,0.3882373571395874,0.5971074942499399,False,True
+dual_signal,"among p_mean>=0.9 and y_pred_min<0.2, largest p_mean - y_pred_min",MTX_f8a05122d84e,COND_3e09a1e6b015,A2780,Zolinza,Bortezomib,0.999078,0.00049524836,0.3844888934399932,0.027141235768795,0.3704599963966757,True,False

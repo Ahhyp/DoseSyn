@@ -103,5 +103,7 @@
     }
   ],
   "chapter": "docs/paper/chapter4_experiments.md",
-  "chapter_sha256": "a8855d4af138d8958736d16f11ded47e46ca8b3bf5a5718d71c4dbb0ee69c686"
+  "chapter_sha256": "b3e5e9cc3415ac2e89a156bcd45dee9643a3778cd5eae188127eef2d8ff8cf92",
+  "chapter_sha256_m7c": "a8855d4af138d8958736d16f11ded47e46ca8b3bf5a5718d71c4dbb0ee69c686",
+  "chapter_extended_by": "M8-C: added section 4.3.9 and 4.4 item 6"
 }

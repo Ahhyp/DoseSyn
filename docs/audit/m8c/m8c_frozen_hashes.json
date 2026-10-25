@@ -1,0 +1,9 @@
+{
+  "outputs/runs/m6b/m6b__b5_t3_film_reg__s2_unseen_pair__seed_42/predictions_test.parquet": "3ddf9de915e85c376a5c0cf659f7f32315df6a90e2302d809aa7d5106f259a36",
+  "outputs/runs/m6b/m6b__b5_t3_film_reg__s2_unseen_pair__seed_42/best.pt": "b038b68b40a273e395871dba8765d07bc6d1e71be908ff5337d052e6c3e14994",
+  "outputs/audit/m3_manifest.json": "7974091b4d1b1fb959350347e9d8aec063135f31f0d5c9ea9c50f83dcca0adea",
+  "outputs/metrics/m8a/split_matrix_evidence.parquet": "b599781d74a311da667fc6b19e16e2a1a69106d7054d62f0070126aef26af2c9",
+  "data/processed/oneil_combo_points.parquet": "906c922d673c0d692d24629966478f1d7aba1b0a30f68a1479b3d828b7413760",
+  "outputs/metrics/m8b/bridge_candidates.csv": "c09fee5c85bfa5e4cc6cf9e2f28585c1c1f758af7e30116eadd178075291121d",
+  "outputs/metrics/m8b/confsyn_checkpoint_validation.csv": "6e55cd5cc14d889d85710f897f372a83ce9d3d665e29ff456b40a5bcab3352fc"
+}

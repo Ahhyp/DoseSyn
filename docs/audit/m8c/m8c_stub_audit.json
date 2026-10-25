@@ -1,0 +1,23 @@
+{
+  "fold": 0,
+  "n_candidates": 120,
+  "stub_forward_calls": 0,
+  "stub_used": false,
+  "proj_reinit_max_abs_delta": 0.0,
+  "proj_reinit_bit_identical": true,
+  "stub_forward_bit_identical": true,
+  "zero_embedding_mean_abs_delta": 0.3306035101413727,
+  "zero_embedding_spearman": 0.4946801861240363,
+  "checkpoint_bert_key_count": 104,
+  "checkpoint_bert_param_count": 44104450,
+  "checkpoint_total_param_count": 88442425,
+  "checkpoint_fold_auc": 0.9636138626467368,
+  "checkpoint_all_fold_auc": {
+    "0": 0.9636138626467368,
+    "1": 0.9518993659443354,
+    "2": 0.9608627231290264,
+    "3": 0.9672246696035244,
+    "4": 0.9741142318759388
+  },
+  "interpretation": "BERT branch is bypassed because precomputed ChemBERTa embeddings are supplied; the checkpoint's frozen BERT body therefore cannot affect predictions. Zeroing those embeddings does change predictions, confirming the semantic path used."
+}
